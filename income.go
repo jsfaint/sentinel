@@ -28,7 +28,7 @@ func income(sessionid, userid, sign string) {
 		},
 	}
 
-	r, err := req.Post(apiIncomeUrl, param, cookies, headers)
+	r, err := req.Post(apiIncomeURL, param, cookies, headers)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -1,12 +1,12 @@
 package main
 
 const (
-	apiAccountUrl  = "https://account.onethingpcs.com"
-	apiControlUrl  = "https://control.onethingpcs.com"
-	apiRemoteDlUrl = "https://control.remotedl.onethingpcs.com"
-	apiLoginUrl    = "https://account.onethingpcs.com/user/login?appversion=1.4.8"
-	apiIncomeUrl   = "https://account.onethingpcs.com/wkb/income-history"
-	apiOutcomeUrl  = "https://account.onethingpcs.com/wkb/outcome-history"
+	apiAccountURL  = "https://account.onethingpcs.com"
+	apiControlURL  = "https://control.onethingpcs.com"
+	apiRemoteDlURL = "https://control.remotedl.onethingpcs.com"
+	apiLoginURL    = "https://account.onethingpcs.com/user/login?appversion=1.4.8"
+	apiIncomeURL   = "https://account.onethingpcs.com/wkb/income-history"
+	apiOutcomeURL  = "https://account.onethingpcs.com/wkb/outcome-history"
 )
 
 var (

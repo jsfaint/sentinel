@@ -20,7 +20,7 @@ func login(phone, pwd, dev, imei, sign string) (sessionid, userid string) {
 		"sign":         sign,
 	}
 
-	r, err := req.Post(apiLoginUrl, headers, param)
+	r, err := req.Post(apiLoginURL, headers, param)
 	if err != nil {
 		fmt.Println(err)
 		return "", ""

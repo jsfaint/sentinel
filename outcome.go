@@ -22,7 +22,7 @@ func outcome(sessionid, userid string) {
 		},
 	}
 
-	r, err := req.Post(apiIncomeUrl, cookies, headers)
+	r, err := req.Post(apiIncomeURL, cookies, headers)
 	if err != nil {
 		fmt.Println(err)
 		return
