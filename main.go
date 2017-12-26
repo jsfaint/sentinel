@@ -4,56 +4,109 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	//"github.com/imroc/req"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 )
 
-const (
-	appVersion     = "1.4.5"
-	apiAccountUrl  = "https://account.onethingpcs.com"
-	apiControlUrl  = "https://control.onethingpcs.com"
-	apiRemoteDlUrl = "https://control.remotedl.onethingpcs.com"
-)
-
-var (
-	headers = map[string]string{"user-agent": "Mozilla/5.0"}
-)
-
+/*
+md5LowerString sum md5 hash code with lower case
+*/
 func md5LowerString(s string) string {
-	m := md5.New()
-	b := m.Sum([]byte(s))
-	str := hex.EncodeToString(b)
+	b := md5.Sum([]byte(s))
+	str := hex.EncodeToString(b[:])
 
 	return strings.ToLower(str)
 }
 
-func deviceID(phone string) string {
+/*
+getDevID generate device id
+*/
+func getDevID(phone string) string {
 	s := md5LowerString(phone)
 
 	//Convert to upper case
-	return strings.ToUpper(s)
+	return strings.ToUpper(s[0:16])
 }
 
-//Get password
+/*
+password Get password string
+*/
 func password(text string) string {
 	s := md5LowerString(text)
+
+	str := s[0:2] + string(s[8]) + s[3:8] + string(s[2]) + s[9:17] +
+		string(s[27]) + s[18:27] + string(s[17]) + s[28:]
+
+	return md5LowerString(str)
+}
+
+/*
+getSign calculate the sign via some config
+*/
+func getSign(body map[string]string) string {
+	var list []string
+
+	//Generate list
+	for k, v := range body {
+		list = append(list, k+"="+v)
+	}
+
+	//Sort
+	sort.Strings(list)
+
+	//Join
+	s := strings.Join(list, "&") + "&key="
+
 	return md5LowerString(s)
 }
 
-func imei(phone string) string {
-	num, err := strconv.ParseFloat(phone, 10)
+/*
+getIMEI generate IMEI via phone number, it's not a real imem number
+*/
+func getIMEI(phone string) string {
+	num, err := strconv.ParseFloat(phone, 64)
 	if err != nil {
 		fmt.Println("Convert string to int fail")
 		return ""
 	}
 
-	s := fmt.Sprint("%f", math.Pow(num, 2))
+	s := strconv.FormatFloat(math.Pow(num, 2), 'f', 6, 64)
 
 	return s[0:14]
 }
 
 func main() {
-	fmt.Println("vim-go")
+	cfg, err := Config()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for _, u := range cfg.Users {
+		phone := u.Phone
+		pwd := password(u.Pass)
+
+		dev := getDevID(phone)
+		imei := getIMEI(phone)
+
+		//Get sign
+		sign := getSign(map[string]string{
+			"deviceid":     dev,
+			"imeiid":       imei,
+			"phone":        phone,
+			"pwd":          pwd,
+			"account_type": "4",
+		})
+
+		println("登录")
+		sessionid, userid := login(phone, pwd, dev, imei, sign)
+
+		println("收益记录")
+		income(sessionid, userid, sign)
+
+		println("提币记录")
+		outcome(sessionid, userid)
+	}
 }
