@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/imroc/req"
-	"math/big"
 )
 
 /*
 login
 */
-func login(phone, pwd, dev, imei, sign string) (sessionid, userid string) {
+func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid string) {
 	//POST query parameter
 	param := req.Param{
 		"deviceid":     dev,
@@ -20,13 +19,13 @@ func login(phone, pwd, dev, imei, sign string) (sessionid, userid string) {
 		"sign":         sign,
 	}
 
-	r, err := req.Post(apiLoginURL, headers, param)
+	resp, err := r.Post(apiLoginURL, headers, param)
 	if err != nil {
 		fmt.Println(err)
 		return "", ""
 	}
 
-	for _, v := range r.Response().Cookies() {
+	for _, v := range resp.Response().Cookies() {
 		switch v.Name {
 		case "sessionid":
 			sessionid = v.Value
@@ -36,28 +35,17 @@ func login(phone, pwd, dev, imei, sign string) (sessionid, userid string) {
 	}
 
 	var v map[string]interface{}
-	if err := r.ToJSON(&v); err != nil {
+	if err := resp.ToJSON(&v); err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	if checkStatus(v) {
-		fmt.Println("login success")
-	} else {
+	if !checkStatus(v) {
 		fmt.Println("login fail")
+		return
 	}
 
 	fmt.Println(v, "\n")
 
 	return
-}
-
-func checkStatus(v map[string]interface{}) bool {
-	ret, ok := v["iRet"]
-	if !ok {
-		return false
-	}
-
-	num := big.NewFloat(ret.(float64))
-	return (num.Cmp(big.NewFloat(0)) == 0)
 }

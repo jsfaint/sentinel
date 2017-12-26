@@ -16,6 +16,7 @@ func main() {
 		phone := u.Phone
 		pwd := getPWD(u.Pass)
 
+		//skip if phone or pwd is null
 		if phone == "" || pwd == "" {
 			continue
 		}
@@ -32,13 +33,18 @@ func main() {
 			"account_type": "4",
 		})
 
+		r := newReq()
+
 		println("登录")
-		sessionid, userid := login(phone, pwd, dev, imei, sign)
+		sessionid, userid := login(r, phone, pwd, dev, imei, sign)
+
+		println("账号信息")
+		getAccountInfo(r, sessionid, userid)
 
 		println("收益记录")
-		income(sessionid, userid, sign)
+		income(r, sessionid, userid, sign)
 
 		println("提币记录")
-		outcome(sessionid, userid)
+		outcome(r, sessionid, userid)
 	}
 }

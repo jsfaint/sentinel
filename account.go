@@ -6,11 +6,13 @@ import (
 	"net/http"
 )
 
-func income(r *req.Req, sessionid, userid, sign string) {
+/*
+getAccountInfo
+*/
+func getAccountInfo(r *req.Req, sessionid, userid string) {
+	//POST query parameter
 	param := req.Param{
-		"page":       "0",
 		"appversion": "1.4.8",
-		"sign":       sign,
 	}
 
 	cookies := []*http.Cookie{
@@ -28,21 +30,20 @@ func income(r *req.Req, sessionid, userid, sign string) {
 		},
 	}
 
-	resp, err := r.Post(apiIncomeURL, param, cookies, headers)
+	resp, err := r.Post(apiAccountInfoURL, headers, param, cookies)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	var v map[string]interface{}
-
 	if err := resp.ToJSON(&v); err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	if !checkStatus(v) {
-		fmt.Println("Get income fail")
+		fmt.Println("getAccountInfo fail")
 		return
 	}
 

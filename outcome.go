@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func outcome(sessionid, userid string) {
+func outcome(r *req.Req, sessionid, userid string) {
 	cookies := []*http.Cookie{
 		&http.Cookie{
 			Name:  "sessionid",
@@ -22,7 +22,7 @@ func outcome(sessionid, userid string) {
 		},
 	}
 
-	r, err := req.Post(apiIncomeURL, cookies, headers)
+	resp, err := r.Post(apiOutcomeURL, cookies, headers)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -30,15 +30,14 @@ func outcome(sessionid, userid string) {
 
 	var v map[string]interface{}
 
-	if err := r.ToJSON(&v); err != nil {
+	if err := resp.ToJSON(&v); err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	if checkStatus(v) {
-		fmt.Println("Get outcome success")
-	} else {
+	if !checkStatus(v) {
 		fmt.Println("Get outcome fail")
+		return
 	}
 
 	fmt.Println(v, "\n")

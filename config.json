@@ -1,6 +1,6 @@
 {
     "token": "",
-    "users": [
+    "accounts": [
         {"phone": "", "pass": ""}
     ]
 }
