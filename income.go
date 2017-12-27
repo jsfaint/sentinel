@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/imroc/req"
 	"net/http"
+
+	"github.com/imroc/req"
 )
 
 /*
@@ -35,10 +36,10 @@ import (
 
 type incomeResp struct {
 	respHead
-	Data income `json:"data"`
+	Data incomeInfo `json:"data"`
 }
 
-type income struct {
+type incomeInfo struct {
 	TotalIncome float64       `json:"totalIncome"`
 	NextPage    int           `json:"nextPage"`
 	IncomeArr   []dailyIncome `json:"incomeArr"`
@@ -49,21 +50,25 @@ type dailyIncome struct {
 	Num  string `json:"num"`
 }
 
-func getIncome(r *req.Req, sessionid, userid, sign string) (err error) {
+/*
+Get income history
+*/
+func (user *userReq) getIncome() (err error) {
+	r := user.r
 	param := req.Param{
 		"page":       "0",
 		"appversion": appVersion,
-		"sign":       sign,
+		"sign":       user.sign,
 	}
 
 	cookies := []*http.Cookie{
 		&http.Cookie{
 			Name:  "sessionid",
-			Value: sessionid,
+			Value: user.sessionid,
 		},
 		&http.Cookie{
 			Name:  "userid",
-			Value: userid,
+			Value: user.userid,
 		},
 		&http.Cookie{
 			Name:  "origin",
@@ -84,10 +89,10 @@ func getIncome(r *req.Req, sessionid, userid, sign string) (err error) {
 	}
 
 	if !v.success() {
-		return ERR_INCOME
+		return errIncomeInfo
 	}
 
-	fmt.Println(v, "\n")
+	user.incomeInfo = &v.Data
 
-	return nil
+	return
 }

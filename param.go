@@ -9,7 +9,8 @@ import (
 )
 
 const (
-	appVersion = "1.4.8"
+	appVersion  = "1.4.13"
+	accountType = "4"
 )
 
 var (

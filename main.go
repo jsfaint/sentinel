@@ -11,56 +11,41 @@ func main() {
 		return
 	}
 
-	if err = getCoinInfo(); err != nil {
+	if c, err := getCoinInfo(); err != nil {
 		fmt.Println(err)
+	} else {
+		_ = c //FIXME: make compiler happy
 	}
 
 	//Walk through the configs, support multiple account
 	for _, u := range cfg.Accounts {
-		phone := u.Phone
-		pwd := getPWD(u.Pass)
-
 		//skip if phone or pwd is null
-		if phone == "" || pwd == "" {
+		if u.Phone == "" || u.Pass == "" {
 			continue
 		}
 
-		dev := getDevID(phone)
-		imei := getIMEI(phone)
-
-		//Get sign
-		sign := getSign(map[string]string{
-			"deviceid":     dev,
-			"imeiid":       imei,
-			"phone":        phone,
-			"pwd":          pwd,
-			"account_type": "4",
-		})
-
-		r := newReq()
+		user := newUser(u.Phone, u.Pass)
 
 		println("登录")
-		var sessionid string
-		var userid string
-		if sessionid, userid, err = login(r, phone, pwd, dev, imei, sign); err != nil {
+		if err = user.login(); err != nil {
 			fmt.Println(err)
 			return
 		}
 
 		println("账号信息")
-		if err = getAccountInfo(r, sessionid, userid); err != nil {
+		if err = user.getAccountInfo(); err != nil {
 			fmt.Println(err)
 			return
 		}
 
 		println("收益记录")
-		if err = getIncome(r, sessionid, userid, sign); err != nil {
+		if err = user.getIncome(); err != nil {
 			fmt.Println(err)
 			return
 		}
 
 		println("提币记录")
-		if err = getOutcome(r, sessionid, userid); err != nil {
+		if err = user.getOutcome(); err != nil {
 			fmt.Println(err)
 			return
 		}

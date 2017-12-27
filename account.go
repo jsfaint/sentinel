@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"github.com/imroc/req"
 	"net/http"
+
+	"github.com/imroc/req"
 )
 
 /*
@@ -47,7 +47,9 @@ type gasInfo struct {
 /*
 getAccountInfo
 */
-func getAccountInfo(r *req.Req, sessionid, userid string) (err error) {
+func (user *userReq) getAccountInfo() (err error) {
+	r := user.r
+
 	//POST query parameter
 	param := req.Param{
 		"appversion": appVersion,
@@ -56,11 +58,11 @@ func getAccountInfo(r *req.Req, sessionid, userid string) (err error) {
 	cookies := []*http.Cookie{
 		&http.Cookie{
 			Name:  "sessionid",
-			Value: sessionid,
+			Value: user.sessionid,
 		},
 		&http.Cookie{
 			Name:  "userid",
-			Value: userid,
+			Value: user.userid,
 		},
 		&http.Cookie{
 			Name:  "origin",
@@ -73,19 +75,16 @@ func getAccountInfo(r *req.Req, sessionid, userid string) (err error) {
 		return err
 	}
 
-	fmt.Println(resp.Dump())
-
 	var v accountInfoResp
 	if err := resp.ToJSON(&v); err != nil {
-		fmt.Println("ToJSON failed", err)
 		return err
 	}
 
 	if !v.success() {
-		return ERR_ACCOUNT_INFO
+		return errAccountInfo
 	}
 
-	fmt.Println(v, "\n")
+	user.accountInfo = &v.Data
 
-	return nil
+	return
 }

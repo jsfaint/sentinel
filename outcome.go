@@ -1,10 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"github.com/imroc/req"
-	"net/http"
-)
+import "net/http"
 
 /*
 {
@@ -39,10 +35,10 @@ import (
 
 type outcomeResp struct {
 	respHead
-	Data outcome `json:"data"`
+	Data outcomeInfo `json:"data"`
 }
 
-type outcome struct {
+type outcomeInfo struct {
 	TotalOutcome string         `json:"totalOutcome"`
 	NextPage     int            `json:"nextPage"`
 	OutcomeArr   []dailyOutcome `json:"outcomeArr"`
@@ -58,15 +54,20 @@ type dailyOutcome struct {
 	Addr          string  `json:"addr"`
 }
 
-func getOutcome(r *req.Req, sessionid, userid string) (err error) {
+/*
+Get Outcome history
+*/
+func (user *userReq) getOutcome() (err error) {
+	r := user.r
+
 	cookies := []*http.Cookie{
 		&http.Cookie{
 			Name:  "sessionid",
-			Value: sessionid,
+			Value: user.sessionid,
 		},
 		&http.Cookie{
 			Name:  "userid",
-			Value: userid,
+			Value: user.userid,
 		},
 		&http.Cookie{
 			Name:  "origin",
@@ -86,10 +87,10 @@ func getOutcome(r *req.Req, sessionid, userid string) (err error) {
 	}
 
 	if !v.success() {
-		return ERR_OUTCOME
+		return errOutcome
 	}
 
-	fmt.Println(v, "\n")
+	user.outcomeInfo = &v.Data
 
-	return nil
+	return
 }

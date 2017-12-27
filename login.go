@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"github.com/imroc/req"
-)
+import "github.com/imroc/req"
 
 /*
 {
@@ -35,41 +32,42 @@ type userInfo struct {
 /*
 login
 */
-func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid string, err error) {
-	//POST query parameter
-	param := req.Param{
-		"deviceid":     dev,
-		"imeiid":       imei,
-		"phone":        phone,
-		"pwd":          pwd,
+func (user *userReq) login() (err error) {
+	r := user.r
+
+	body := req.Param{
+		"deviceid":     user.devID,
+		"imeiid":       user.imei,
+		"phone":        user.phone,
+		"pwd":          user.pwd,
 		"account_type": "4",
-		"sign":         sign,
+		"sign":         user.sign,
 	}
 
-	resp, err := r.Post(apiLoginURL, headers, param)
+	resp, err := r.Post(apiLoginURL, headers, body)
 	if err != nil {
-		return "", "", err
+		return err
 	}
 
 	for _, v := range resp.Response().Cookies() {
 		switch v.Name {
 		case "sessionid":
-			sessionid = v.Value
+			user.sessionid = v.Value
 		case "userid":
-			userid = v.Value
+			user.userid = v.Value
 		}
 	}
 
 	var v loginResp
 	if err := resp.ToJSON(&v); err != nil {
-		return "", "", err
+		return err
 	}
 
 	if !v.success() {
-		return "", "", ERR_LOGIN
+		return errLogin
 	}
 
-	fmt.Println(v.Data, "\n")
+	user.userInfo = &v.Data
 
 	return
 }

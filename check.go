@@ -6,9 +6,5 @@ type respHead struct {
 }
 
 func (h *respHead) success() bool {
-	if h.Ret != 0 {
-		return false
-	} else {
-		return true
-	}
+	return (h.Ret == 0)
 }

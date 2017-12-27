@@ -130,7 +130,7 @@ type topNDisk struct {
 /*
 getCoinInfo
 */
-func getCoinInfo() (err error) {
+func getCoinInfo() (c *coin, err error) {
 	r, err := req.Post(apiCoinInfoURL, headers)
 	if err != nil {
 		fmt.Println(err)
@@ -139,14 +139,18 @@ func getCoinInfo() (err error) {
 
 	var v coinResp
 	if err := r.ToJSON(&v); err != nil {
-		return err
+		return nil, err
 	}
 
 	if !v.success() {
-		return ERR_COIN_INFO
+		return nil, errCoinInfo
 	}
 
-	fmt.Println(v, "\n")
+	c = &v.Data
 
-	return nil
+	return
+}
+
+func (c *coin) dump() {
+	fmt.Println(c)
 }

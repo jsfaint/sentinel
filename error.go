@@ -5,10 +5,11 @@ import (
 )
 
 var (
-	ERR_ACCOUNT_INFO     = errors.New("getAccountInfo fail")
-	ERR_CHECK_REGISTERED = errors.New("checkRegister fail")
-	ERR_COIN_INFO        = errors.New("Get coin info fail")
-	ERR_INCOME           = errors.New("Get income fail")
-	ERR_LOGIN            = errors.New("Login Fail")
-	ERR_OUTCOME          = errors.New("Get outcome fail")
+	errAccountInfo     = errors.New("get AccountInfo fail")
+	errActivateInfo    = errors.New("Get activateInfo fail")
+	errCheckRegistered = errors.New("check register status fail")
+	errCoinInfo        = errors.New("Get coin info fail")
+	errIncomeInfo      = errors.New("Get income fail")
+	errLogin           = errors.New("Login Fail")
+	errOutcome         = errors.New("Get outcome fail")
 )
