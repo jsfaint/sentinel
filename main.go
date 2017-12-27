@@ -55,6 +55,9 @@ func main() {
 		}
 
 		println("提币记录")
-		outcome(r, sessionid, userid)
+		if err = getOutcome(r, sessionid, userid); err != nil {
+			fmt.Println(err)
+			return
+		}
 	}
 }
