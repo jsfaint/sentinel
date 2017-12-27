@@ -7,12 +7,50 @@ import (
 )
 
 /*
+{
+  "iRet": 0,
+  "sMsg": "",
+  "data": {
+    "fronzen_time": 0,
+    "bind_time": 1513127124,
+    "balance": "",
+    "isBindAddr": 1,
+    "addr": "",
+    "gasInfo": {
+      "fastGas": "",
+      "normalGas": "",
+      "isFree": 0
+    }
+  }
+}
+*/
+type accountInfoResp struct {
+	respHead
+	Data accountInfo `json:"data"`
+}
+
+type accountInfo struct {
+	Addr        string  `json:"addr"`
+	Balance     string  `json:"balance"`
+	BindTime    uint64  `json:"bind_time"`
+	FronzenTime uint64  `json:"fronzen_time"`
+	GasInfo     gasInfo `json:"gasInfo"`
+	IsBindAddr  uint8   `json:"isBindAddr"`
+}
+
+type gasInfo struct {
+	FastGas   float64 `json:"fast_gas"`
+	NormalGas float64 `json:"normal_gas"`
+	IsFree    bool    `json:"is_free"`
+}
+
+/*
 getAccountInfo
 */
-func getAccountInfo(r *req.Req, sessionid, userid string) {
+func getAccountInfo(r *req.Req, sessionid, userid string) (err error) {
 	//POST query parameter
 	param := req.Param{
-		"appversion": "1.4.8",
+		"appversion": appVersion,
 	}
 
 	cookies := []*http.Cookie{
@@ -32,20 +70,22 @@ func getAccountInfo(r *req.Req, sessionid, userid string) {
 
 	resp, err := r.Post(apiAccountInfoURL, headers, param, cookies)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
 
-	var v map[string]interface{}
+	fmt.Println(resp.Dump())
+
+	var v accountInfoResp
 	if err := resp.ToJSON(&v); err != nil {
-		fmt.Println(err)
-		return
+		fmt.Println("ToJSON failed", err)
+		return err
 	}
 
-	if !checkStatus(v) {
-		fmt.Println("getAccountInfo fail")
-		return
+	if !v.success() {
+		return fmt.Errorf("getAccountInfo fail")
 	}
 
 	fmt.Println(v, "\n")
+
+	return nil
 }

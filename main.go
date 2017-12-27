@@ -43,10 +43,10 @@ func main() {
 		}
 
 		println("账号信息")
-		getAccountInfo(r, sessionid, userid)
-
-		//FIXME
-		continue
+		if err = getAccountInfo(r, sessionid, userid); err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		println("收益记录")
 		income(r, sessionid, userid, sign)
