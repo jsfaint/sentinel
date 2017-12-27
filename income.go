@@ -52,7 +52,7 @@ type dailyIncome struct {
 func getIncome(r *req.Req, sessionid, userid, sign string) (err error) {
 	param := req.Param{
 		"page":       "0",
-		"appversion": "1.4.8",
+		"appversion": appVersion,
 		"sign":       sign,
 	}
 
