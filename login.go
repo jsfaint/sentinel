@@ -15,8 +15,7 @@ type userInfo struct {
 
 //map[iRet:0 sMsg:ok data:map[userid:<user id> phone:<phone> account_type:4 bind_pwd:1 nickname:<phone>]]
 type logResp struct {
-	Ret  int      `json:"iRet"`
-	Mesg string   `json:"sMesg"`
+	respHead
 	Data userInfo `json:"data"`
 }
 

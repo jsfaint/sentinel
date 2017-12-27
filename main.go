@@ -38,6 +38,9 @@ func main() {
 		println("登录")
 		sessionid, userid := login(r, phone, pwd, dev, imei, sign)
 
+		//FIXME
+		continue
+
 		println("账号信息")
 		getAccountInfo(r, sessionid, userid)
 
