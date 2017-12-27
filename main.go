@@ -49,7 +49,10 @@ func main() {
 		}
 
 		println("收益记录")
-		income(r, sessionid, userid, sign)
+		if err = getIncome(r, sessionid, userid, sign); err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		println("提币记录")
 		outcome(r, sessionid, userid)
