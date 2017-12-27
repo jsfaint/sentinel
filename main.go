@@ -36,8 +36,9 @@ func main() {
 		r := newReq()
 
 		println("登录")
-		sessionid, userid, err := login(r, phone, pwd, dev, imei, sign)
-		if err != nil {
+		var sessionid string
+		var userid string
+		if sessionid, userid, err = login(r, phone, pwd, dev, imei, sign); err != nil {
 			fmt.Println(err)
 			return
 		}
