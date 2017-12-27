@@ -11,6 +11,10 @@ func main() {
 		return
 	}
 
+	if err = getCoinInfo(); err != nil {
+		fmt.Println(err)
+	}
+
 	//Walk through the configs, support multiple account
 	for _, u := range cfg.Accounts {
 		phone := u.Phone
