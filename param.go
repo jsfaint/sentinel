@@ -8,6 +8,17 @@ import (
 	"strings"
 )
 
+const (
+	appVersion = "1.4.8"
+)
+
+var (
+	headers = map[string]string{
+		"user-agent":    "Mozilla/5.0",
+		"cache-control": "no-cache",
+	}
+)
+
 /*
 getDevID generate device id
 */
