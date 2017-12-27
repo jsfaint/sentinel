@@ -5,24 +5,37 @@ import (
 	"github.com/imroc/req"
 )
 
+/*
+{
+  "iRet": 0,
+  "sMsg": "ok",
+  "data": {
+    "userid": "",
+    "phone": "",
+    "account_type": "",
+    "bind_pwd": 1,
+    "nickname": ""
+  }
+}
+*/
+
+type loginResp struct {
+	respHead
+	Data userInfo `json:"data"`
+}
+
 type userInfo struct {
 	Userid      string `json:"userid"`
 	Phone       string `json:"phone"`
 	AccountType string `json:"account_type"`
-	BindPwd     int    `json:"bind_pwd"`
+	BindPwd     uint   `json:"bind_pwd"`
 	NickName    string `json:"nickname"`
-}
-
-//map[iRet:0 sMsg:ok data:map[userid:<user id> phone:<phone> account_type:4 bind_pwd:1 nickname:<phone>]]
-type logResp struct {
-	respHead
-	Data userInfo `json:"data"`
 }
 
 /*
 login
 */
-func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid string) {
+func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid string, err error) {
 	//POST query parameter
 	param := req.Param{
 		"deviceid":     dev,
@@ -35,8 +48,7 @@ func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid st
 
 	resp, err := r.Post(apiLoginURL, headers, param)
 	if err != nil {
-		fmt.Println(err)
-		return "", ""
+		return "", "", err
 	}
 
 	for _, v := range resp.Response().Cookies() {
@@ -48,15 +60,13 @@ func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid st
 		}
 	}
 
-	var v logResp
+	var v loginResp
 	if err := resp.ToJSON(&v); err != nil {
-		fmt.Println(err)
-		return
+		return "", "", err
 	}
 
-	if v.Ret != 0 {
-		fmt.Println("login fail")
-		return
+	if !v.success() {
+		return "", "", fmt.Errorf("Login fail")
 	}
 
 	fmt.Println(v.Data, "\n")

@@ -36,13 +36,17 @@ func main() {
 		r := newReq()
 
 		println("登录")
-		sessionid, userid := login(r, phone, pwd, dev, imei, sign)
-
-		//FIXME
-		continue
+		sessionid, userid, err := login(r, phone, pwd, dev, imei, sign)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		println("账号信息")
 		getAccountInfo(r, sessionid, userid)
+
+		//FIXME
+		continue
 
 		println("收益记录")
 		income(r, sessionid, userid, sign)

@@ -9,6 +9,14 @@ type respHead struct {
 	Msg string `json:"sMesg"`
 }
 
+func (h *respHead) success() bool {
+	if h.Ret != 0 {
+		return false
+	} else {
+		return true
+	}
+}
+
 /*
 checkStatus checks the iRet status
 */
