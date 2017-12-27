@@ -86,7 +86,7 @@ func getOutcome(r *req.Req, sessionid, userid string) (err error) {
 	}
 
 	if !v.success() {
-		return fmt.Errorf("Get outcome fail")
+		return ERR_OUTCOME
 	}
 
 	fmt.Println(v, "\n")

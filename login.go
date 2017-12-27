@@ -66,7 +66,7 @@ func login(r *req.Req, phone, pwd, dev, imei, sign string) (sessionid, userid st
 	}
 
 	if !v.success() {
-		return "", "", fmt.Errorf("Login fail")
+		return "", "", ERR_LOGIN
 	}
 
 	fmt.Println(v.Data, "\n")

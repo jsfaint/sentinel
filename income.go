@@ -84,7 +84,7 @@ func getIncome(r *req.Req, sessionid, userid, sign string) (err error) {
 	}
 
 	if !v.success() {
-		return fmt.Errorf("Get income fail")
+		return ERR_INCOME
 	}
 
 	fmt.Println(v, "\n")

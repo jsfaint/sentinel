@@ -82,7 +82,7 @@ func getAccountInfo(r *req.Req, sessionid, userid string) (err error) {
 	}
 
 	if !v.success() {
-		return fmt.Errorf("getAccountInfo fail")
+		return ERR_ACCOUNT_INFO
 	}
 
 	fmt.Println(v, "\n")
