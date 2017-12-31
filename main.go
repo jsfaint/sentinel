@@ -32,6 +32,11 @@ func main() {
 			return
 		}
 
+		//if err = user.listPeerInfo(); err != nil {
+		//fmt.Println(err)
+		//return
+		//}
+
 		println("账号信息")
 		if err = user.getAccountInfo(); err != nil {
 			fmt.Println(err)
@@ -49,5 +54,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+
+		user.withDraw()
 	}
 }

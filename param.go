@@ -13,13 +13,6 @@ const (
 	accountType = "4"
 )
 
-var (
-	headers = map[string]string{
-		"user-agent":    "Mozilla/5.0",
-		"cache-control": "no-cache",
-	}
-)
-
 /*
 getDevID generate device id
 */
@@ -45,7 +38,7 @@ func getPWD(text string) string {
 /*
 getSign calculate the sign via some config
 */
-func getSign(body map[string]string) string {
+func getSign(isGet bool, body map[string]string) string {
 	var list []string
 
 	//Generate list
@@ -57,7 +50,11 @@ func getSign(body map[string]string) string {
 	sort.Strings(list)
 
 	//Join
-	s := strings.Join(list, "&") + "&key="
+	s := strings.Join(list, "&")
+
+	if !isGet {
+		s = s + "&key="
+	}
 
 	return md5LowerString(s)
 }

@@ -55,28 +55,26 @@ Get income history
 */
 func (user *userReq) getIncome() (err error) {
 	r := user.r
-	param := req.Param{
+
+	sign := getSign(false, map[string]string{
 		"page":       "0",
 		"appversion": appVersion,
-		"sign":       user.sign,
+	})
+
+	body := req.Param{
+		"page":       "0",
+		"appversion": appVersion,
+		"sign":       sign,
 	}
 
 	cookies := []*http.Cookie{
-		&http.Cookie{
-			Name:  "sessionid",
-			Value: user.sessionid,
-		},
-		&http.Cookie{
-			Name:  "userid",
-			Value: user.userid,
-		},
 		&http.Cookie{
 			Name:  "origin",
 			Value: "1",
 		},
 	}
 
-	resp, err := r.Post(apiIncomeURL, param, cookies, headers)
+	resp, err := r.Post(apiIncomeURL, body, cookies, headers)
 	if err != nil {
 		return
 	}

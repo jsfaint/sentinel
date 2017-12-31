@@ -6,18 +6,19 @@ const (
 	apiRemoteURL  = "https://control.remotedl.onethingpcs.com"
 
 	//Account
-	apiLoginURL        = apiAccountURL + "/user/login"
-	apiIncomeURL       = apiAccountURL + "/wkb/income-history"
-	apiOutcomeURL      = apiAccountURL + "/wkb/outcome-history"
-	apiCheckAccountURL = apiAccountURL + "/user/check"
-	apiCoinInfoURL     = apiAccountURL + "/info/query"
-	apiUserURL         = apiAccountURL + "/activiate/userinfo"
 	apiAccountInfoURL  = apiAccountURL + "/wkb/account-info"
 	apiActivateInfoURL = apiAccountURL + "/activate/userinfo"
+	apiCheckAccountURL = apiAccountURL + "/user/check"
+	apiCoinInfoURL     = apiAccountURL + "/info/query"
+	apiIncomeURL       = apiAccountURL + "/wkb/income-history"
+	apiLoginURL        = apiAccountURL + "/user/login"
+	apiOutcomeURL      = apiAccountURL + "/wkb/outcome-history"
+	apiUserURL         = apiAccountURL + "/activiate/userinfo"
+	apiWKBDrawURL      = apiAccountURL + "/wkb/draw"
 
 	//Control
-	apiListPeerURL = apiControlURL + "/ListPeer"
 	apiDiskInfoURL = apiControlURL + "/getUSBInfo"
+	apiListPeerURL = apiControlURL + "/listPeer"
 
 	//Remote
 	apiDownloadInfoURL = apiRemoteURL + "list"

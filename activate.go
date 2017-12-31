@@ -38,20 +38,13 @@ func (user *userReq) getActivate() (err error) {
 		"appversion": appVersion,
 	}
 
+	//FIXME
 	body := req.Param{
-		"sign": user.sign,
-		//FIXME: sn: user.sn
+		"sign": "",
+		"sn":   "",
 	}
 
 	cookies := []*http.Cookie{
-		&http.Cookie{
-			Name:  "sessionid",
-			Value: user.sessionid,
-		},
-		&http.Cookie{
-			Name:  "userid",
-			Value: user.userid,
-		},
 		&http.Cookie{
 			Name:  "origin",
 			Value: "1",

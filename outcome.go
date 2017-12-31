@@ -62,14 +62,6 @@ func (user *userReq) getOutcome() (err error) {
 
 	cookies := []*http.Cookie{
 		&http.Cookie{
-			Name:  "sessionid",
-			Value: user.sessionid,
-		},
-		&http.Cookie{
-			Name:  "userid",
-			Value: user.userid,
-		},
-		&http.Cookie{
 			Name:  "origin",
 			Value: "1",
 		},

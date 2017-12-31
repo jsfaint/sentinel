@@ -35,27 +35,26 @@ login
 func (user *userReq) login() (err error) {
 	r := user.r
 
+	sign := getSign(false, map[string]string{
+		"deviceid":     user.devID,
+		"imeiid":       user.imei,
+		"phone":        user.phone,
+		"pwd":          user.pwd,
+		"account_type": accountType,
+	})
+
 	body := req.Param{
 		"deviceid":     user.devID,
 		"imeiid":       user.imei,
 		"phone":        user.phone,
 		"pwd":          user.pwd,
 		"account_type": "4",
-		"sign":         user.sign,
+		"sign":         sign,
 	}
 
 	resp, err := r.Post(apiLoginURL, headers, body)
 	if err != nil {
 		return err
-	}
-
-	for _, v := range resp.Response().Cookies() {
-		switch v.Name {
-		case "sessionid":
-			user.sessionid = v.Value
-		case "userid":
-			user.userid = v.Value
-		}
 	}
 
 	var v loginResp

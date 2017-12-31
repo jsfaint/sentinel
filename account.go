@@ -51,26 +51,18 @@ func (user *userReq) getAccountInfo() (err error) {
 	r := user.r
 
 	//POST query parameter
-	param := req.Param{
+	body := req.Param{
 		"appversion": appVersion,
 	}
 
 	cookies := []*http.Cookie{
-		&http.Cookie{
-			Name:  "sessionid",
-			Value: user.sessionid,
-		},
-		&http.Cookie{
-			Name:  "userid",
-			Value: user.userid,
-		},
 		&http.Cookie{
 			Name:  "origin",
 			Value: "1",
 		},
 	}
 
-	resp, err := r.Post(apiAccountInfoURL, headers, param, cookies)
+	resp, err := r.Post(apiAccountInfoURL, headers, body, cookies)
 	if err != nil {
 		return err
 	}

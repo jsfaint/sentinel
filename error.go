@@ -10,6 +10,7 @@ var (
 	errCheckRegistered = errors.New("check register status fail")
 	errCoinInfo        = errors.New("Get coin info fail")
 	errIncomeInfo      = errors.New("Get income fail")
+	errListPeerInfo    = errors.New("List peer info fail")
 	errLogin           = errors.New("Login Fail")
 	errOutcome         = errors.New("Get outcome fail")
 )

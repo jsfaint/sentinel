@@ -23,12 +23,12 @@ checkRegister check if the phone number is already registered
 */
 func checkRegister(r *req.Req, phone, sign string) (err error) {
 	fmt.Println("Phone:", phone)
-	param := req.Param{
+	body := req.Param{
 		"phone": phone,
 		"sign":  sign,
 	}
 
-	resp, err := r.Post(apiCheckAccountURL, headers, param)
+	resp, err := r.Post(apiCheckAccountURL, headers, body)
 	if err != nil {
 		return err
 	}
