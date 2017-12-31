@@ -19,7 +19,7 @@ import (
 }
 */
 
-type activateInfoResp struct {
+type respActivateInfo struct {
 	respHead
 	Data activateInfo `json:"data"`
 }
@@ -60,7 +60,7 @@ func (user *userReq) getActivate() (err error) {
 		return err
 	}
 
-	var v activateInfoResp
+	var v respActivateInfo
 	if err := resp.ToJSON(&v); err != nil {
 		return err
 	}

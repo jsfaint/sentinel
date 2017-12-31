@@ -37,24 +37,24 @@ func main() {
 		//return
 		//}
 
-		println("账号信息")
-		if err = user.getAccountInfo(); err != nil {
-			fmt.Println(err)
-			return
-		}
+		//println("账号信息")
+		//if err = user.getAccountInfo(); err != nil {
+		//fmt.Println(err)
+		//return
+		//}
 
-		println("收益记录")
-		if err = user.getIncome(); err != nil {
-			fmt.Println(err)
-			return
-		}
+		//println("收益记录")
+		//if err = user.getIncome(); err != nil {
+		//fmt.Println(err)
+		//return
+		//}
 
-		println("提币记录")
-		if err = user.getOutcome(); err != nil {
-			fmt.Println(err)
-			return
-		}
+		//println("提币记录")
+		//if err = user.getOutcome(); err != nil {
+		//fmt.Println(err)
+		//return
+		//}
 
-		user.withDraw()
+		user.getDisk()
 	}
 }

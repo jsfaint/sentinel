@@ -34,7 +34,7 @@ import (
 }
 */
 
-type incomeResp struct {
+type respIncome struct {
 	respHead
 	Data incomeInfo `json:"data"`
 }
@@ -79,7 +79,7 @@ func (user *userReq) getIncome() (err error) {
 		return
 	}
 
-	var v incomeResp
+	var v respIncome
 
 	if err := resp.ToJSON(&v); err != nil {
 		fmt.Println(err)

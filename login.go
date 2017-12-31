@@ -16,7 +16,7 @@ import "github.com/imroc/req"
 }
 */
 
-type loginResp struct {
+type respLogin struct {
 	respHead
 	Data userInfo `json:"data"`
 }
@@ -57,7 +57,7 @@ func (user *userReq) login() (err error) {
 		return err
 	}
 
-	var v loginResp
+	var v respLogin
 	if err := resp.ToJSON(&v); err != nil {
 		return err
 	}

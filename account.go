@@ -24,7 +24,7 @@ import (
   }
 }
 */
-type accountInfoResp struct {
+type respAccountInfo struct {
 	respHead
 	Data accountInfo `json:"data"`
 }
@@ -67,7 +67,7 @@ func (user *userReq) getAccountInfo() (err error) {
 		return err
 	}
 
-	var v accountInfoResp
+	var v respAccountInfo
 	if err := resp.ToJSON(&v); err != nil {
 		return err
 	}

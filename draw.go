@@ -6,7 +6,7 @@ import (
 	"github.com/imroc/req"
 )
 
-type drawResp struct {
+type respDraw struct {
 	respHead
 }
 

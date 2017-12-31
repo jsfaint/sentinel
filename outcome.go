@@ -33,7 +33,7 @@ import "net/http"
 }
 */
 
-type outcomeResp struct {
+type respOutcome struct {
 	respHead
 	Data outcomeInfo `json:"data"`
 }
@@ -72,7 +72,7 @@ func (user *userReq) getOutcome() (err error) {
 		return err
 	}
 
-	var v outcomeResp
+	var v respOutcome
 
 	if err := resp.ToJSON(&v); err != nil {
 		return err

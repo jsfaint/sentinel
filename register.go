@@ -13,7 +13,7 @@ import (
 }
 */
 
-type registResp struct {
+type respRegister struct {
 	respHead
 	Register int `json:"register"`
 }
@@ -33,7 +33,7 @@ func checkRegister(r *req.Req, phone, sign string) (err error) {
 		return err
 	}
 
-	var v registResp
+	var v respRegister
 
 	if err := resp.ToJSON(&v); err != nil {
 		return err

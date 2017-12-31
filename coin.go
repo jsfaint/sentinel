@@ -91,7 +91,7 @@ import (
 }
 */
 
-type coinResp struct {
+type respCoin struct {
 	respHead
 	Data coin `json:"data"`
 }
@@ -137,7 +137,7 @@ func getCoinInfo() (c *coin, err error) {
 		return
 	}
 
-	var v coinResp
+	var v respCoin
 	if err := r.ToJSON(&v); err != nil {
 		return nil, err
 	}
