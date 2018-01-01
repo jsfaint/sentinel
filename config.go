@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"time"
 )
 
 type account struct {
@@ -12,8 +13,9 @@ type account struct {
 }
 
 type config struct {
-	Token    string    `json:"token"`
-	Accounts []account `json:"accounts"`
+	Token    string       `json:"token"`
+	DrawDay  time.Weekday `json:"draw_day"`
+	Accounts []account    `json:"accounts"`
 }
 
 func getConfig() (cfg config, err error) {
