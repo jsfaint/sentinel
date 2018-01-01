@@ -73,7 +73,7 @@ func (user *userReq) getAccountInfo() (err error) {
 	}
 
 	if !v.success() {
-		return errAccountInfo
+		return v
 	}
 
 	user.accountInfo = &v.Data

@@ -143,7 +143,7 @@ func getCoinInfo() (c *coin, err error) {
 	}
 
 	if !v.success() {
-		return nil, errCoinInfo
+		return nil, v
 	}
 
 	c = &v.Data

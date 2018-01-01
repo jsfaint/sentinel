@@ -6,7 +6,8 @@ type respHead struct {
 }
 
 type respHead2 struct {
-	Rtn int `json:"rtn"`
+	Rtn int    `json:"rtn"`
+	Msg string `json:"msg"`
 }
 
 func (h respHead) success() bool {
@@ -15,4 +16,12 @@ func (h respHead) success() bool {
 
 func (h respHead2) success() bool {
 	return (h.Rtn == 0)
+}
+
+func (h respHead) Error() string {
+	return h.Msg
+}
+
+func (h respHead2) Error() string {
+	return h.Msg
 }

@@ -66,7 +66,7 @@ func (user *userReq) getActivate() (err error) {
 	}
 
 	if !v.success() {
-		return errActivateInfo
+		return v
 	}
 
 	user.activateInfo = &v.Data

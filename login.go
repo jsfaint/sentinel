@@ -63,7 +63,7 @@ func (user *userReq) login() (err error) {
 	}
 
 	if !v.success() {
-		return errLogin
+		return v
 	}
 
 	user.userInfo = &v.Data

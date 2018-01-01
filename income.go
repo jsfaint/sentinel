@@ -87,7 +87,7 @@ func (user *userReq) getIncome() (err error) {
 	}
 
 	if !v.success() {
-		return errIncomeInfo
+		return v
 	}
 
 	user.incomeInfo = &v.Data

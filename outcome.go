@@ -79,7 +79,7 @@ func (user *userReq) getOutcome() (err error) {
 	}
 
 	if !v.success() {
-		return errOutcome
+		return v
 	}
 
 	user.outcomeInfo = &v.Data

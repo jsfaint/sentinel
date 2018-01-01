@@ -40,7 +40,7 @@ func checkRegister(r *req.Req, phone, sign string) (err error) {
 	}
 
 	if !v.success() {
-		return errCheckRegistered
+		return v
 	}
 
 	fmt.Println(v, "\n")
