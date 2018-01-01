@@ -11,13 +11,8 @@ func main() {
 		return
 	}
 
-	if c, err := getCoinInfo(); err != nil {
-		fmt.Println(err)
-	} else {
-		_ = c //FIXME: make compiler happy
-	}
-
 	//Walk through the configs, support multiple account
+	var users []*userReq
 	for _, u := range cfg.Accounts {
 		//skip if phone or pwd is null
 		if u.Phone == "" || u.Pass == "" {
@@ -26,22 +21,32 @@ func main() {
 
 		user := newUser(u.Phone, u.Pass)
 
-		println("登录")
+		if user != nil {
+			users = append(users, user)
+		}
+
 		if err = user.login(); err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	if c, err := getCoinInfo(); err != nil {
+		fmt.Println(err)
+	} else {
+		_ = c //FIXME: make compiler happy
+	}
+
+	for _, user := range users {
+		if user.userInfo == nil {
+			fmt.Println(user.phone, "log in failed, please check the username or password")
+			continue
+		}
+
+		println("账号信息")
+		if err = user.getAccountInfo(); err != nil {
 			fmt.Println(err)
 			return
 		}
-
-		//if err = user.listPeerInfo(); err != nil {
-		//fmt.Println(err)
-		//return
-		//}
-
-		//println("账号信息")
-		//if err = user.getAccountInfo(); err != nil {
-		//fmt.Println(err)
-		//return
-		//}
 
 		//println("收益记录")
 		//if err = user.getIncome(); err != nil {
