@@ -8,6 +8,7 @@ import (
 
 var oldUsers []*userReq
 
+//Login all account in goroutine
 func login(users []*userReq) {
 	var done sync.WaitGroup
 
@@ -25,6 +26,7 @@ func login(users []*userReq) {
 	done.Wait()
 }
 
+//Refresh the data to avoid out-of-date
 func refresh(users []*userReq) {
 	var done sync.WaitGroup
 
@@ -44,6 +46,7 @@ func refresh(users []*userReq) {
 	oldUsers = users
 }
 
+//With draw the coin
 func withDraw(users []*userReq) {
 	var done sync.WaitGroup
 
@@ -61,6 +64,7 @@ func withDraw(users []*userReq) {
 	done.Wait()
 }
 
+//Show summary of yesterday
 func summary(users []*userReq) {
 	var sum []string
 
@@ -82,6 +86,7 @@ func summary(users []*userReq) {
 	}
 }
 
+//Check online status and send alarming
 func checkStatus(users []*userReq) {
 	if len(oldUsers) == 0 {
 		return
