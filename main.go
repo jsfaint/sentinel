@@ -60,6 +60,8 @@ func main() {
 		//return
 		//}
 
-		user.getDisk()
+		if err := user.withDraw(); err != nil {
+			fmt.Println(err)
+		}
 	}
 }

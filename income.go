@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/imroc/req"
@@ -82,7 +81,6 @@ func (user *userReq) getIncome() (err error) {
 	var v respIncome
 
 	if err := resp.ToJSON(&v); err != nil {
-		fmt.Println(err)
 		return err
 	}
 
