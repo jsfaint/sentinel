@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/imroc/req"
 )
 
@@ -45,4 +46,54 @@ func newUser(phone, pass string) *userReq {
 
 		r: req.New(),
 	}
+}
+
+func (user *userReq) refresh() (err error) {
+	valid, err := user.validSession()
+	if err != nil {
+		return
+	}
+
+	if !valid {
+		if err = user.login(); err != nil {
+			return err
+		}
+	}
+
+	if err = user.listPeerInfo(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err = user.getUSBInfo(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err = user.getActivate(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err = user.getAccountInfo(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err = user.getIncome(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err = user.getOutcome(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	return
+}
+
+func (user *userReq) summary() (message string, err error) {
+
+	return
 }
