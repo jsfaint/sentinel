@@ -32,6 +32,7 @@ type userReq struct {
 	incomeInfo   *incomeInfo
 	outcomeInfo  *outcomeInfo
 	activateInfo *activateInfo
+	peers        *peerList
 }
 
 func newUser(phone, pass string) *userReq {

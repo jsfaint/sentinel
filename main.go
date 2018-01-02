@@ -25,11 +25,14 @@ func main() {
 			users = append(users, user)
 		}
 
+		println("登陆")
 		if err = user.login(); err != nil {
 			fmt.Println(err)
+			continue
 		}
 	}
 
+	println("获取玩客币信息")
 	if c, err := getCoinInfo(); err != nil {
 		fmt.Println(err)
 	} else {
@@ -42,11 +45,22 @@ func main() {
 			continue
 		}
 
-		if valid, err := user.validSession(); err != nil {
+		println("验证session有效性")
+		if _, err := user.validSession(); err != nil {
 			fmt.Println(err)
 			return
-		} else {
-			fmt.Println(valid)
+		}
+
+		println("获取节点列表")
+		if err = user.listPeerInfo(); err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		println("获取激活信息")
+		if err = user.getActivate(); err != nil {
+			fmt.Println(err)
+			return
 		}
 
 		println("账号信息")

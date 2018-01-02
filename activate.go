@@ -25,23 +25,28 @@ type respActivateInfo struct {
 }
 
 type activateInfo struct {
-	ActivateDays int `json:"activate_days"`
-	YesWKB       int `json:"yes_wkb"`
-	IsDone       int `json:"is_done"`
-	Type         int `json:"type"`
+	ActivateDays int     `json:"activate_days"`
+	YesWKB       float64 `json:"yes_wkb"`
+	IsDone       int     `json:"is_done"`
+	Type         int     `json:"type"`
 }
 
 func (user *userReq) getActivate() (err error) {
 	r := user.r
 
+	device := user.peers.Devices[0]
+
+	sign := getSign(false, map[string]string{
+		"sn": device.DeviceSn,
+	}, user.sessionID)
+
 	query := req.QueryParam{
 		"appversion": appVersion,
 	}
 
-	//FIXME
 	body := req.Param{
-		"sign": "",
-		"sn":   "",
+		"sn":   device.DeviceSn,
+		"sign": sign,
 	}
 
 	cookies := []*http.Cookie{
@@ -51,11 +56,11 @@ func (user *userReq) getActivate() (err error) {
 		},
 		&http.Cookie{
 			Name:  "peerid",
-			Value: "1", //FIXME: user.peerID
+			Value: device.Peerid,
 		},
 	}
 
-	resp, err := r.Post(apiAccountInfoURL, headers, query, body, cookies)
+	resp, err := r.Post(apiActivateInfoURL, headers, query, body, cookies)
 	if err != nil {
 		return err
 	}
