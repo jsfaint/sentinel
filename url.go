@@ -18,7 +18,7 @@ const (
 	apiSessionURL      = apiAccountURL + "/user/check-session"
 
 	//Control
-	apiDiskInfoURL = apiControlURL + "/getUSBInfo"
+	apiUSBInfoURL  = apiControlURL + "/getUSBInfo"
 	apiListPeerURL = apiControlURL + "/listPeer"
 
 	//Remote
