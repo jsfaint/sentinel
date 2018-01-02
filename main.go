@@ -11,6 +11,9 @@ func main() {
 		return
 	}
 
+	//Set servchan token
+	setServtoken(cfg.Token)
+
 	//Walk through the configs, support multiple account
 	var users []*userReq
 	for _, u := range cfg.Accounts {
