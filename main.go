@@ -42,24 +42,32 @@ func main() {
 			continue
 		}
 
+		if valid, err := user.validSession(); err != nil {
+			fmt.Println(err)
+			return
+		} else {
+			fmt.Println(valid)
+		}
+
 		println("账号信息")
 		if err = user.getAccountInfo(); err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		//println("收益记录")
-		//if err = user.getIncome(); err != nil {
-		//fmt.Println(err)
-		//return
-		//}
+		println("收益记录")
+		if err = user.getIncome(); err != nil {
+			fmt.Println(err)
+			return
+		}
 
-		//println("提币记录")
-		//if err = user.getOutcome(); err != nil {
-		//fmt.Println(err)
-		//return
-		//}
+		println("提币记录")
+		if err = user.getOutcome(); err != nil {
+			fmt.Println(err)
+			return
+		}
 
+		println("提币")
 		if err := user.withDraw(); err != nil {
 			fmt.Println(err)
 		}

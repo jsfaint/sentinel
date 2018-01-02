@@ -38,7 +38,7 @@ func getPWD(text string) string {
 /*
 getSign calculate the sign via some config
 */
-func getSign(isGet bool, body map[string]string) string {
+func getSign(isGet bool, body map[string]string, session string) string {
 	var list []string
 
 	//Generate list
@@ -50,11 +50,7 @@ func getSign(isGet bool, body map[string]string) string {
 	sort.Strings(list)
 
 	//Join
-	s := strings.Join(list, "&")
-
-	if !isGet {
-		s = s + "&key="
-	}
+	s := strings.Join(list, "&") + "&key=" + session
 
 	return md5LowerString(s)
 }

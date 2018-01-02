@@ -67,7 +67,7 @@ func (user *userReq) withDraw() (err error) {
 		"gasType":    "2",
 		"drawWkb":    user.accountInfo.Balance,
 		"appversion": appVersion,
-	})
+	}, user.sessionID)
 
 	body := req.Param{
 		"gasType":    "2",

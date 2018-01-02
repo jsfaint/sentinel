@@ -15,6 +15,7 @@ const (
 	apiOutcomeURL      = apiAccountURL + "/wkb/outcome-history"
 	apiUserURL         = apiAccountURL + "/activiate/userinfo"
 	apiWKBDrawURL      = apiAccountURL + "/wkb/draw"
+	apiSessionURL      = apiAccountURL + "/user/check-session"
 
 	//Control
 	apiDiskInfoURL = apiControlURL + "/getUSBInfo"

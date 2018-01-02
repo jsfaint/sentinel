@@ -41,7 +41,7 @@ func (user *userReq) login() (err error) {
 		"phone":        user.phone,
 		"pwd":          user.pwd,
 		"account_type": accountType,
-	})
+	}, "")
 
 	body := req.Param{
 		"deviceid":     user.devID,
@@ -64,6 +64,15 @@ func (user *userReq) login() (err error) {
 
 	if !v.success() {
 		return v
+	}
+
+	for _, c := range resp.Response().Cookies() {
+		switch c.Name {
+		case "sessionid":
+			user.sessionID = c.Value
+		case "userid":
+			user.userID = c.Value
+		}
 	}
 
 	user.userInfo = &v.Data

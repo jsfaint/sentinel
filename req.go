@@ -12,8 +12,8 @@ var (
 )
 
 type session struct {
-	sessionid string
-	userid    string
+	sessionID string
+	userID    string
 }
 
 type userReq struct {
@@ -24,6 +24,7 @@ type userReq struct {
 
 	//Request
 	r *req.Req
+	session
 
 	//Data from response
 	userInfo     *userInfo
