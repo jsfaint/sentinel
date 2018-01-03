@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"time"
 )
+
+var cfg config
 
 type account struct {
 	Phone string `json:"phone"`
@@ -32,4 +35,16 @@ func getConfig() (cfg config, err error) {
 	}
 
 	return
+}
+
+func init() {
+	var err error
+	cfg, err = getConfig()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	//Set servchan token
+	setServtoken(cfg.Token)
 }
