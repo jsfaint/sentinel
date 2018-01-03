@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/imroc/req"
@@ -192,22 +194,31 @@ func (user *userReq) listPeerInfo() (err error) {
 		return err
 	}
 
+	//FIXME: this is for debug only, need to make sure if the peer has only one device or much more
+	if len(list.Devices) != 1 {
+		fmt.Printf("Found %d peers!\n", len(list.Devices))
+	}
+
 	user.peers = &list
 
 	return
 }
 
-func (peer peerInfo) String(phone string) string {
+func (peer peerInfo) Message(phone string) (title string, content string) {
+	var b bytes.Buffer
 
 	switch peer.Status {
 	case "online":
-		return phone + " " + "设备已离线"
+		title = phone + " " + "设备已离线"
 	case "offline":
-		return phone + " " + "设备已离线"
+		title = phone + " " + "设备已离线"
 	case "exception":
-		return phone + " " + "硬盘异常"
-
+		title = phone + " " + "硬盘异常"
+	default:
+		title = phone + " " + peer.Status
 	}
 
-	return ""
+	b.WriteString(fmt.Sprintf("设备名: %s SN: %s \r\n", peer.DeviceName, peer.DeviceSn))
+
+	return title, b.String()
 }
