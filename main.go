@@ -1,16 +1,37 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 )
 
-func main() {
-	cfg, err := getConfig()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+const (
+	Name        = "sentinel"
+	Description = "A sentinel for WanKeYun"
+	Version     = "v0.1"
+	Mail        = "jsfaint@gmail.com"
+)
 
+type options struct {
+	summary *bool
+	check   *bool
+	draw    *bool
+}
+
+var opt options
+
+func init() {
+	fmt.Println(Name, Version, Mail)
+	fmt.Println(Description)
+
+	opt.summary = flag.Bool("summary", false, "Show summary")
+	opt.check = flag.Bool("check", false, "Check device status")
+	opt.draw = flag.Bool("draw", false, "Draw the incoming coins")
+
+	flag.Parse()
+}
+
+func main() {
 	//Walk through the configs, support multiple account
 	var users []*userReq
 	for _, u := range cfg.Accounts {
@@ -21,28 +42,38 @@ func main() {
 
 		user := newUser(u.Phone, u.Pass)
 
-		if user != nil {
-			users = append(users, user)
+		if err := user.login(); err != nil {
+			fmt.Println(err)
+			continue
 		}
+
+		users = append(users, user)
 	}
 
-	println("获取玩客币信息")
-	go func() {
-		c, err := getCoinInfo()
-		if err != nil {
-			fmt.Println(err)
+	//If some parameter were given, run the specfied task else run cron job
+	if *opt.summary || *opt.check || *opt.draw {
+		//Refresh all data
+		refresh(users)
+
+		if *opt.summary {
+			summary(users)
 		}
 
-		c.dump()
-	}()
+		if *opt.check {
+			checkStatus(users)
+		}
 
-	login(users)
+		if *opt.draw {
+			withDraw(users)
+		}
 
-	refresh(users)
+		return
+	}
 
-	println("summary")
-	summary(users)
+	if err := startCrontable(users); err != nil {
+		return
+	}
+	defer stopCrontable()
 
-	println("checkStatus")
-	checkStatus(users)
+	select {}
 }

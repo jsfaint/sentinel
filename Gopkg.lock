@@ -2,12 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  name = "github.com/icattlecoder/godaemon"
-  packages = ["."]
-  revision = "f0fff2a3c017c9d9d8520e3c5366946e96e9e081"
-
-[[projects]]
   name = "github.com/imroc/req"
   packages = ["."]
   revision = "e487483388746c1438a8a81aa3db91177eae2720"
@@ -22,6 +16,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9e07f2f6121678edd8962f35f68c1ae72de94f78c23b4c502404e92a857a41a0"
+  inputs-digest = "51aa6422bf8001e74946db2ba7d5df92994a342f4d86dcfb47959c2224579fc8"
   solver-name = "gps-cdcl"
   solver-version = 1
