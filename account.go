@@ -52,7 +52,7 @@ func (user *userReq) getAccountInfo() (err error) {
 
 	//POST query parameter
 	body := req.Param{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 	}
 
 	cookies := []*http.Cookie{

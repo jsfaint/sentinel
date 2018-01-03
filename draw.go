@@ -66,13 +66,13 @@ func (user *userReq) withDraw() (err error) {
 	sign := getSign(false, map[string]string{
 		"gasType":    "2",
 		"drawWkb":    user.accountInfo.Balance,
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 	}, user.sessionID)
 
 	body := req.Param{
 		"gasType":    "2",
 		"drawWkb":    user.accountInfo.Balance,
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 		"sign":       sign,
 	}
 

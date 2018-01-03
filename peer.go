@@ -139,13 +139,13 @@ func (user *userReq) listPeerInfo() (err error) {
 	r := user.r
 
 	sign := getSign(true, map[string]string{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 		"v":          "2",
 		"ct":         "1",
 	}, user.sessionID)
 
 	query := req.QueryParam{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 		"v":          "2",
 		"ct":         "1",
 		"sign":       sign,

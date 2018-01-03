@@ -41,7 +41,7 @@ func (user *userReq) getActivate() (err error) {
 	}, user.sessionID)
 
 	query := req.QueryParam{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 	}
 
 	body := req.Param{

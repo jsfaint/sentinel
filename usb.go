@@ -55,14 +55,14 @@ func (user *userReq) getUSBInfo() (err error) {
 	devID := user.peers.Devices[0].DeviceID
 
 	sign := getSign(true, map[string]string{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 		"v":          "1",
 		"ct":         "1",
 		"deviceid":   devID,
 	}, user.sessionID)
 
 	query := req.QueryParam{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 		"v":          "1",
 		"ct":         "1",
 		"deviceid":   devID,

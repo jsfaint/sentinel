@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	appVersion  = "1.4.13"
-	accountType = "4"
+	wkAppVersion = "1.4.13"
+	accountType  = "4"
 )
 
 /*

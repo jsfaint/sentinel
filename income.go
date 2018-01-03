@@ -57,12 +57,12 @@ func (user *userReq) getIncome() (err error) {
 
 	sign := getSign(false, map[string]string{
 		"page":       "0",
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 	}, user.sessionID)
 
 	body := req.Param{
 		"page":       "0",
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 		"sign":       sign,
 	}
 

@@ -14,7 +14,7 @@ func (user *userReq) validSession() (valid bool, err error) {
 	sign := getSign(true, map[string]string{}, user.sessionID)
 
 	query := req.QueryParam{
-		"appversion": appVersion,
+		"appversion": wkAppVersion,
 	}
 
 	body := req.Param{
