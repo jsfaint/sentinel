@@ -197,10 +197,6 @@ func (user *userReq) listPeerInfo() (err error) {
 	return
 }
 
-func (peer peerInfo) Error() string {
-	return peer.Status
-}
-
 func (peer peerInfo) String(phone string) string {
 
 	switch peer.Status {
