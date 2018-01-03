@@ -111,7 +111,7 @@ func (user *userReq) summary() string {
 	b.WriteString(fmt.Sprintf("激活天数: %d 总收益: %.3f 已提币: %s\n", activate.ActivateDays, income.TotalIncome, outcome.TotalOutcome))
 	b.WriteString(fmt.Sprintf("昨日收益: %.3f 可提余额: %s\n", activate.YesWKB, account.Balance))
 	for _, p := range partitions.Partitions {
-		b.WriteString(fmt.Sprintf("%s 容量: %sG/%sG", p.Label, p.Used, p.Capacity))
+		b.WriteString(fmt.Sprintf("%s 容量: %sG/%sG\n", p.Label, p.Used, p.Capacity))
 	}
 
 	return b.String()
