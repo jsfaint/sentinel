@@ -1,5 +1,6 @@
 {
     "token": "",
+    "draw_day": 1,
     "accounts": [
         {"phone": "", "pass": ""}
     ]
