@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/imroc/req"
 )
@@ -93,7 +94,25 @@ func (user *userReq) refresh() (err error) {
 	return
 }
 
-func (user *userReq) summary() (message string, err error) {
+func (user *userReq) summary() string {
+	var b bytes.Buffer
 
-	return
+	//Short the variable
+	account := user.accountInfo
+	activate := user.activateInfo
+	income := user.incomeInfo
+	outcome := user.outcomeInfo
+	peer := user.peers.Devices[0]
+	partitions := user.partitions
+
+	b.WriteString(fmt.Sprintf("电话: %s 钱包: %s\n", user.phone, account.Addr))
+	b.WriteString(fmt.Sprintf("设备名: %s SN: %s\n", peer.DeviceName, peer.DeviceSn))
+	b.WriteString(fmt.Sprintf("公网IP: %s 局域网IP: %s\n", peer.IP, peer.LanIP))
+	b.WriteString(fmt.Sprintf("激活天数: %d 总收益: %.3f 已提币: %s\n", activate.ActivateDays, income.TotalIncome, outcome.TotalOutcome))
+	b.WriteString(fmt.Sprintf("昨日收益: %.3f 可提余额: %s\n", activate.YesWKB, account.Balance))
+	for _, p := range partitions.Partitions {
+		b.WriteString(fmt.Sprintf("%s 容量: %sG/%sG", p.Label, p.Used, p.Capacity))
+	}
+
+	return b.String()
 }

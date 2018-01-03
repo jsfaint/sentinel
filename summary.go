@@ -1,8 +1,8 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -66,22 +66,15 @@ func withDraw(users []*userReq) {
 
 //Show summary of yesterday
 func summary(users []*userReq) {
-	var sum []string
+	var b bytes.Buffer
+
+	b.WriteString(incomeAverage(users))
 
 	for _, u := range users {
-		message, err := u.summary()
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		sum = append(sum, message)
+		b.WriteString(u.summary())
 	}
 
-	for _, v := range sum {
-		fmt.Println(v)
-	}
-
-	if err := send("summary", strings.Join(sum, "\n")); err != nil {
+	if err := send("summary", b.String()); err != nil {
 		fmt.Println(err)
 	}
 }
@@ -115,4 +108,19 @@ func checkStatus(users []*userReq) {
 	}
 
 	done.Wait()
+}
+
+//Get Average income of yesterday
+func incomeAverage(users []*userReq) string {
+	var total float64
+	var b bytes.Buffer
+
+	for _, u := range users {
+		total += u.activateInfo.YesWKB
+	}
+
+	b.WriteString(fmt.Sprintf("%.3f台机器\n", len(users)))
+	b.WriteString(fmt.Sprintf("%.3f 币/台", total/float64(len(users))))
+
+	return b.String()
 }
