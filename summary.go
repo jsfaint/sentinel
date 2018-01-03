@@ -72,9 +72,10 @@ func summary(users []*userReq) {
 
 	for _, u := range users {
 		b.WriteString(u.summary())
+		b.WriteString("\r\n")
 	}
 
-	if err := send("summary", b.String()); err != nil {
+	if err := send("玩客哨兵每日播报", b.String()); err != nil {
 		fmt.Println(err)
 	}
 }
@@ -119,7 +120,7 @@ func incomeAverage(users []*userReq) string {
 		total += u.activateInfo.YesWKB
 	}
 
-	b.WriteString(fmt.Sprintf("%.3f台机器\n", len(users)))
+	b.WriteString(fmt.Sprintf("%d台机器\n", len(users)))
 	b.WriteString(fmt.Sprintf("%.3f 币/台", total/float64(len(users))))
 
 	return b.String()

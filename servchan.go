@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/imroc/req"
-	"net/url"
 )
 
 const (
@@ -27,8 +26,8 @@ func send(title string, content string) (err error) {
 	}
 
 	body := req.Param{
-		"text": url.QueryEscape(title),
-		"desp": url.QueryEscape(content),
+		"text": title,
+		"desp": content,
 	}
 
 	url := servchanURL + servchanToken + ".send"
