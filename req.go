@@ -106,15 +106,19 @@ func (user *userReq) summary() string {
 	peer := user.peers.Devices[0]
 	partitions := user.partitions
 
-	b.WriteString(fmt.Sprintf("电话: %s 钱包: %s\r\n", user.phone, account.Addr))
-	b.WriteString(fmt.Sprintf("设备名: %s SN: %s\r\n", peer.DeviceName, peer.DeviceSn))
-	b.WriteString(fmt.Sprintf("公网IP: %s 局域网IP: %s\r\n", peer.IP, peer.LanIP))
-	b.WriteString(fmt.Sprintf("激活天数: %d 总收益: %.3f 已提币: %s\r\n", activate.ActivateDays, income.TotalIncome, outcome.TotalOutcome))
-	b.WriteString(fmt.Sprintf("昨日收益: %.3f 可提余额: %s\r\n", activate.YesWKB, account.Balance))
+	b.WriteString(fmt.Sprintf("## %s 设备名: %s SN: %s  \n", user.phone, peer.DeviceName, peer.DeviceSn))
+	b.WriteString(fmt.Sprintf("公网IP: %s 局域网IP: %s  \n", peer.IP, peer.LanIP))
+	b.WriteString(fmt.Sprintf("钱包地址: %s  \n", account.Addr))
+	b.WriteString(fmt.Sprintf("激活天数: %d 总收益: %.3f 已提币: %s  \n", activate.ActivateDays, income.TotalIncome, outcome.TotalOutcome))
+	b.WriteString(fmt.Sprintf("昨日收益: %.3f 可提余额: %s  \n", activate.YesWKB, account.Balance))
 	for _, p := range partitions.Partitions {
-		used, _ := strconv.ParseUint(p.Used, 10, 64)
-		caps, _ := strconv.ParseUint(p.Capacity, 10, 64)
-		b.WriteString(fmt.Sprintf("%s 容量: %uG/%uG\r\n", p.Label, used, caps))
+		used, _ := strconv.ParseFloat(p.Used, 64)
+		caps, _ := strconv.ParseFloat(p.Capacity, 64)
+
+		used /= 1024 * 1024 * 1024
+		caps /= 1024 * 1024 * 1024
+
+		b.WriteString(fmt.Sprintf("%s 容量: %.2fG/%.2fG  \n", p.Label, used, caps))
 	}
 
 	return b.String()

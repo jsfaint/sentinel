@@ -43,8 +43,6 @@ func startCrontable(users []*userReq) (err error) {
 		return err
 	}
 
-	fmt.Println(c.Entries())
-
 	c.Start()
 
 	return

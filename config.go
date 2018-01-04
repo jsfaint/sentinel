@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"os"
+	"log"
 	"time"
 )
 
@@ -41,8 +41,15 @@ func init() {
 	var err error
 	cfg, err = getConfig()
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatalln(err)
+	}
+
+	if len(cfg.Accounts) == 0 {
+		log.Fatalln("Please add at least one account in config.json")
+	}
+
+	if cfg.Token == "" {
+		log.Fatalln("Empty servchan token, please set token in the config.json")
 	}
 
 	//Set servchan token

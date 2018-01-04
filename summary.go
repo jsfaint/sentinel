@@ -69,10 +69,11 @@ func summary(users []*userReq) {
 	var b bytes.Buffer
 
 	b.WriteString(incomeAverage(users))
+	b.WriteString("\n")
 
 	for _, u := range users {
 		b.WriteString(u.summary())
-		b.WriteString("\r\n")
+		b.WriteString("\n")
 	}
 
 	if err := send("玩客哨兵每日播报", b.String()); err != nil {
@@ -120,8 +121,8 @@ func incomeAverage(users []*userReq) string {
 		total += u.activateInfo.YesWKB
 	}
 
-	b.WriteString(fmt.Sprintf("共%d台机器\r\n", len(users)))
-	b.WriteString(fmt.Sprintf("平均%.3f 币/台\r\n", total/float64(len(users))))
+	b.WriteString(fmt.Sprintf("共%d台机器 总收益 %.3f链克  \n", len(users), total))
+	b.WriteString(fmt.Sprintf("平均%.3f 链克/台  \n", total/float64(len(users))))
 
 	return b.String()
 }

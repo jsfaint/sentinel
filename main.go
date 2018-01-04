@@ -6,10 +6,10 @@ import (
 )
 
 const (
-	Name        = "sentinel"
-	Description = "A sentinel for WanKeYun"
-	Version     = "v0.1"
-	Mail        = "jsfaint@gmail.com"
+	name        = "sentinel"
+	description = "A sentinel for WanKeYun"
+	version     = "v0.1"
+	mail        = "jsfaint@gmail.com"
 )
 
 type options struct {
@@ -21,8 +21,8 @@ type options struct {
 var opt options
 
 func init() {
-	fmt.Println(Name, Version, Mail)
-	fmt.Println(Description)
+	fmt.Println(name, version, mail)
+	fmt.Println(description)
 
 	opt.summary = flag.Bool("summary", false, "Show summary")
 	opt.check = flag.Bool("check", false, "Check device status")

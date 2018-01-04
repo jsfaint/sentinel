@@ -218,7 +218,7 @@ func (peer peerInfo) Message(phone string) (title string, content string) {
 		title = phone + " " + peer.Status
 	}
 
-	b.WriteString(fmt.Sprintf("设备名: %s SN: %s \r\n", peer.DeviceName, peer.DeviceSn))
+	b.WriteString(fmt.Sprintf("设备名: %s SN: %s  \n", peer.DeviceName, peer.DeviceSn))
 
 	return title, b.String()
 }
