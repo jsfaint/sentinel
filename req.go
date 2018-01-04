@@ -106,7 +106,8 @@ func (user *userReq) summary() string {
 	peer := user.peers.Devices[0]
 	partitions := user.partitions
 
-	b.WriteString(fmt.Sprintf("## %s 设备名: %s SN: %s  \n", user.phone, peer.DeviceName, peer.DeviceSn))
+	b.WriteString(fmt.Sprintf("## %s\n", user.phone))
+	b.WriteString(fmt.Sprintf("设备名: %s SN: %s  \n", peer.DeviceName, peer.DeviceSn))
 	b.WriteString(fmt.Sprintf("公网IP: %s 局域网IP: %s  \n", peer.IP, peer.LanIP))
 	b.WriteString(fmt.Sprintf("钱包地址: %s  \n", account.Addr))
 	b.WriteString(fmt.Sprintf("激活天数: %d 总收益: %.3f 已提币: %s  \n", activate.ActivateDays, income.TotalIncome, outcome.TotalOutcome))
