@@ -48,6 +48,10 @@ func init() {
 		log.Fatalln("Please add at least one account in config.json")
 	}
 
+	if cfg.DrawDay < 1 || cfg.DrawDay > 5 {
+		log.Fatalln("Invalid draw day, must be in the range of 1~5")
+	}
+
 	if cfg.Token == "" {
 		log.Fatalln("Empty servchan token, please set token in the config.json")
 	}
