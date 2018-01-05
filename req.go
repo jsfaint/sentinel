@@ -20,6 +20,17 @@ type session struct {
 	userID    string
 }
 
+type userData struct {
+	//Data from response
+	userInfo     *userInfo
+	accountInfo  *accountInfo
+	incomeInfo   *incomeInfo
+	outcomeInfo  *outcomeInfo
+	activateInfo *activateInfo
+	peers        *peerList
+	partitions   *partitionList
+}
+
 type userReq struct {
 	phone string
 	pwd   string
@@ -31,13 +42,7 @@ type userReq struct {
 	session
 
 	//Data from response
-	userInfo     *userInfo
-	accountInfo  *accountInfo
-	incomeInfo   *incomeInfo
-	outcomeInfo  *outcomeInfo
-	activateInfo *activateInfo
-	peers        *peerList
-	partitions   *partitionList
+	userData
 }
 
 func newUser(phone, pass string) *userReq {
