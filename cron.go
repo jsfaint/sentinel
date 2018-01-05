@@ -22,7 +22,7 @@ func startCrontable(users []*userReq) (err error) {
 	c = cron.New()
 
 	//Refresh data and check status every 30s
-	if err = c.AddFunc("30 * * * * *", func() {
+	if err = c.AddFunc("@every 30s", func() {
 		refresh(users)
 		checkStatus(users)
 	}); err != nil {
