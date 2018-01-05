@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"time"
@@ -24,13 +23,11 @@ type config struct {
 func getConfig() (cfg config, err error) {
 	b, err := ioutil.ReadFile("./config.json")
 	if err != nil {
-		fmt.Println(err)
 		return config{}, err
 	}
 
 	err = json.Unmarshal(b, &cfg)
 	if err != nil {
-		fmt.Println(err.Error())
 		return config{}, err
 	}
 
@@ -42,6 +39,7 @@ func init() {
 	cfg, err = getConfig()
 	if err != nil {
 		log.Fatalln(err)
+
 	}
 
 	if len(cfg.Accounts) == 0 {

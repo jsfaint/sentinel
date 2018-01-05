@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/imroc/req"
+	log "gopkg.in/clog.v1"
 )
 
 /*
@@ -196,7 +197,7 @@ func (user *userReq) listPeerInfo() (err error) {
 
 	//FIXME: this is for debug only, need to make sure if the peer has only one device or much more
 	if len(list.Devices) != 1 {
-		fmt.Printf("Found %d peers!\n", len(list.Devices))
+		log.Warn("Found %d peers!", len(list.Devices))
 	}
 
 	user.peers = &list

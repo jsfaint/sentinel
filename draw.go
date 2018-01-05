@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	log "gopkg.in/clog.v1"
 
 	"errors"
 	"github.com/imroc/req"
@@ -81,14 +81,14 @@ func (user *userReq) withDraw() (err error) {
 		return err
 	}
 
-	fmt.Println(resp.Dump())
+	log.Info("%s", resp.Dump())
 
 	var v respDraw
 	if err := resp.ToJSON(&v); err != nil {
 		return err
 	}
 
-	fmt.Println(v)
+	log.Info("%v", v)
 
 	if !v.success() {
 		return v

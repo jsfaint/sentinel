@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	log "gopkg.in/clog.v1"
+	"path/filepath"
 )
 
 const (
@@ -16,6 +18,7 @@ type options struct {
 	summary *bool
 	check   *bool
 	draw    *bool
+	log     *string
 }
 
 var opt options
@@ -27,11 +30,62 @@ func init() {
 	opt.summary = flag.Bool("summary", false, "Show summary")
 	opt.check = flag.Bool("check", false, "Check device status")
 	opt.draw = flag.Bool("draw", false, "Draw the incoming coins")
+	opt.log = flag.String("log", "", "Logging output with different log level(trace, info, warn, error, fatal)")
 
 	flag.Parse()
 }
 
+func newLog(level string) (err error) {
+	var l log.LEVEL
+
+	switch level {
+	case "trace":
+		l = log.TRACE
+	case "info":
+		l = log.INFO
+	case "warn":
+		l = log.WARN
+	case "error":
+		l = log.ERROR
+	case "fatal":
+		l = log.FATAL
+	default:
+		l = log.WARN
+	}
+
+	name := filepath.Join(".", name+".log")
+
+	err = log.New(log.CONSOLE, log.ConsoleConfig{
+		Level:      log.TRACE,
+		BufferSize: 0,
+	})
+
+	//If the log levl is nil, we don't log it into file
+	if level == "" {
+		return
+	}
+
+	err = log.New(log.FILE, log.FileConfig{
+		Level:      l,
+		BufferSize: 0,
+		Filename:   name,
+		FileRotationConfig: log.FileRotationConfig{
+			Rotate:  true,
+			Daily:   true,
+			MaxSize: 10240000,
+			MaxDays: 7,
+		},
+	})
+
+	return err
+}
+
 func main() {
+	if err := newLog(*opt.log); err != nil {
+		fmt.Println(err)
+	}
+	defer log.Shutdown()
+
 	//Walk through the configs, support multiple account
 	var users []*userReq
 	for _, u := range cfg.Accounts {
@@ -43,7 +97,7 @@ func main() {
 		user := newUser(u.Phone, u.Pass)
 
 		if err := user.login(); err != nil {
-			fmt.Println(err)
+			log.Error(1, "%v", err)
 			continue
 		}
 

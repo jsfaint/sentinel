@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	log "gopkg.in/clog.v1"
 	"sync"
 )
 
@@ -16,7 +17,7 @@ func login(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.login(); err != nil {
-				fmt.Println(err)
+				log.Error(1, "%v", err)
 			}
 
 			done.Done()
@@ -34,8 +35,10 @@ func refresh(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.refresh(); err != nil {
-				fmt.Println(err)
+				log.Error(1, "%v", err)
 			}
+
+			log.Trace("%s Data Refreshed", u.userData.userInfo.Phone)
 
 			done.Done()
 		}(u)
@@ -54,7 +57,7 @@ func withDraw(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.withDraw(); err != nil {
-				fmt.Println(err)
+				log.Error(1, "%v", err)
 			}
 
 			done.Done()
@@ -76,8 +79,10 @@ func summary(users []*userReq) {
 		b.WriteString("\n")
 	}
 
+	log.Info("%s", b.String())
+
 	if err := send("玩客哨兵每日播报", b.String()); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 	}
 }
 
@@ -91,17 +96,37 @@ func checkStatus(users []*userReq) {
 
 	for i, u := range users {
 		done.Add(1)
-		go func(u *userReq, old *userReq) {
-			for i, v := range u.peers.Devices {
-				status := old.peers.Devices[i].Status
-				if v.Status == status {
-					continue
+		if len(oldUsers) == 0 {
+			//Singleshot
+			go func(u *userReq) {
+				for _, v := range u.peers.Devices {
+					if v.Status == "online" {
+						continue
+					}
+
+					t, c := v.Message(u.phone)
+
+					if err := send(t, c); err != nil {
+						log.Error(1, "%s %v", u.phone, err)
+					}
 				}
 
-				t, c := v.Message(u.phone)
+				done.Done()
+			}(u)
+		} else {
+			//Common compare
+			go func(u *userReq, old *userReq) {
+				for i, v := range u.peers.Devices {
+					status := old.peers.Devices[i].Status
+					if v.Status == status {
+						continue
+					}
 
-				if err := send(t, c); err != nil {
-					fmt.Println(u.phone, err)
+					t, c := v.Message(u.phone)
+
+					if err := send(t, c); err != nil {
+						log.Error(1, "%s %v", u.phone, err)
+					}
 				}
 			}
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/imroc/req"
+	log "gopkg.in/clog.v1"
 )
 
 /*
@@ -133,7 +133,7 @@ getCoinInfo
 func getCoinInfo() (c *coin, err error) {
 	r, err := req.Post(apiCoinInfoURL, headers)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
@@ -152,5 +152,5 @@ func getCoinInfo() (c *coin, err error) {
 }
 
 func (c *coin) dump() {
-	fmt.Println(c)
+	log.Info("%v", c)
 }

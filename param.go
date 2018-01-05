@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	log "gopkg.in/clog.v1"
 	"math"
 	"sort"
 	"strconv"
@@ -61,7 +61,7 @@ getIMEI generate IMEI via phone number, it's not a real imem number
 func getIMEI(phone string) string {
 	num, err := strconv.ParseFloat(phone, 64)
 	if err != nil {
-		fmt.Println("Convert string to int fail")
+		log.Error(0, "Convert string to int fail")
 		return ""
 	}
 

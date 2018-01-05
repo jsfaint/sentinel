@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/imroc/req"
+	log "gopkg.in/clog.v1"
 	"strconv"
 )
 
@@ -63,32 +64,32 @@ func (user *userReq) refresh() (err error) {
 	}
 
 	if err = user.listPeerInfo(); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
 	if err = user.getUSBInfo(); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
 	if err = user.getActivate(); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
 	if err = user.getAccountInfo(); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
 	if err = user.getIncome(); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
 	if err = user.getOutcome(); err != nil {
-		fmt.Println(err)
+		log.Error(1, "%v", err)
 		return
 	}
 
