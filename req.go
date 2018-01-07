@@ -59,7 +59,7 @@ func newUser(phone, pass string) *userReq {
 func (user *userReq) refresh() (err error) {
 	valid, err := user.validSession()
 	if err != nil {
-		return
+		log.Info("%v", err)
 	}
 
 	if !valid {
