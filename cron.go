@@ -23,7 +23,6 @@ func startCrontable(users []*userReq) (err error) {
 
 	//Refresh data and check status every 30s
 	if err = c.AddFunc("@every 30s", func() {
-		refresh(users)
 		checkStatus(users)
 	}); err != nil {
 		return err

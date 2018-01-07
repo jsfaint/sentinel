@@ -7,8 +7,6 @@ import (
 	"sync"
 )
 
-var old []userData
-
 //Login all account in goroutine
 func login(users []*userReq) {
 	var done sync.WaitGroup
@@ -45,16 +43,6 @@ func refresh(users []*userReq) {
 	}
 
 	done.Wait()
-
-	//Backup old data
-	backUserData(users)
-}
-
-func backUserData(users []*userReq) {
-	old = make([]userData, len(users))
-	for i, v := range users {
-		old[i] = v.userData
-	}
 }
 
 //With draw the coin
@@ -96,51 +84,29 @@ func summary(users []*userReq) {
 
 //Check online status and send alarming
 func checkStatus(users []*userReq) {
-	if len(oldUsers) == 0 {
-		return
-	}
-
 	var done sync.WaitGroup
 
-	for i, u := range users {
+	for _, u := range users {
 		done.Add(1)
-		if len(old) == 0 {
-			//Singleshot
-			go func(u *userReq) {
-				for _, v := range u.peers.Devices {
-					if v.Status == "online" {
-						continue
-					}
+		go func(u *userReq) {
+			if err := u.refresh(); err != nil {
+				log.Error(1, "%v", err)
+			}
 
-					t, c := v.Message(u.phone)
-
-					if err := send(t, c); err != nil {
-						log.Error(1, "%s %v", u.phone, err)
-					}
+			for _, v := range u.peers.Devices {
+				if v.Status == "online" {
+					continue
 				}
 
-				done.Done()
-			}(u)
-		} else {
-			//Common compare
-			go func(u userData, old userData) {
-				for i, v := range u.peers.Devices {
-					status := old.peers.Devices[i].Status
-					if v.Status == status {
-						continue
-					}
+				t, c := v.Message(u.phone)
 
-					t, c := v.Message(u.userInfo.Phone)
-
-					if err := send(t, c); err != nil {
-						log.Error(1, "%s %v", u.userInfo.Phone, err)
-					}
+				if err := send(t, c); err != nil {
+					log.Error(1, "%s %v", u.phone, err)
 				}
 			}
 
-				done.Done()
-			}(u.userData, old[i])
-		}
+			done.Done()
+		}(u)
 	}
 
 	done.Wait()
