@@ -56,7 +56,7 @@ func newUser(phone, pass string) *userReq {
 	}
 }
 
-func (user *userReq) refresh() (err error) {
+func (user *userReq) refresh(all bool) (err error) {
 	valid, err := user.validSession()
 	if err != nil {
 		log.Info("%v", err)
@@ -70,32 +70,36 @@ func (user *userReq) refresh() (err error) {
 
 	if err = user.listPeerInfo(); err != nil {
 		log.Error(1, "%v", err)
+	}
+
+	if !all {
 		return
 	}
 
-	if err = user.getUSBInfo(); err != nil {
-		log.Error(1, "%v", err)
-		return
+	phone := user.userInfo.Phone
+
+	if user.peers.Devices[0].Status != "exception" {
+		if err = user.getUSBInfo(); err != nil {
+			log.Error(1, "%v", err)
+		}
+	} else {
+		log.Error(1, "%s disk status is exception %v", phone)
 	}
 
 	if err = user.getActivate(); err != nil {
-		log.Error(1, "%v", err)
-		return
+		log.Error(1, "%s getActivate fail %v", phone, err)
 	}
 
 	if err = user.getAccountInfo(); err != nil {
-		log.Error(1, "%v", err)
-		return
+		log.Error(1, "%s getAccountInfo fail %v", phone, err)
 	}
 
 	if err = user.getIncome(); err != nil {
-		log.Error(1, "%v", err)
-		return
+		log.Error(1, "%s getIncome fail %v", phone, err)
 	}
 
 	if err = user.getOutcome(); err != nil {
-		log.Error(1, "%v", err)
-		return
+		log.Error(1, "%s getOutcome fail %v", phone, err)
 	}
 
 	return

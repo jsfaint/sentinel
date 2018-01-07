@@ -32,11 +32,11 @@ func refresh(users []*userReq) {
 	for _, u := range users {
 		done.Add(1)
 		go func(u *userReq) {
-			if err := u.refresh(); err != nil {
-				log.Error(1, "%v", err)
+			if err := u.refresh(true); err != nil {
+				log.Error(1, "%s refresh() returns %v", u.userData.userInfo.Phone, err)
 			}
 
-			log.Trace("%s Data Refreshed", u.userData.userInfo.Phone)
+			log.Trace("%s refreshed", u.userData.userInfo.Phone)
 
 			done.Done()
 		}(u)
@@ -89,7 +89,7 @@ func checkStatus(users []*userReq) {
 	for _, u := range users {
 		done.Add(1)
 		go func(u *userReq) {
-			if err := u.refresh(); err != nil {
+			if err := u.refresh(false); err != nil {
 				log.Error(1, "%v", err)
 			}
 
