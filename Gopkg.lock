@@ -2,7 +2,6 @@
 
 
 [[projects]]
-[[projects]]
   name = "github.com/fatih/color"
   packages = ["."]
   revision = "570b54cabe6b8eb0bc2dfce68d964677d63b5260"
@@ -36,7 +35,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "a3f2cbd54cf5dfe3fbaccf76375fdb12f67654c8"
+  revision = "dd9ec17814d5b1de388ebe438ec013d57d8b3779"
 
 [[projects]]
   name = "gopkg.in/clog.v1"
@@ -47,6 +46,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e05f1662faefc91bb572465761bc0179a6101b447aa335bd1d3171a0b1832743"
+  inputs-digest = "20d10bfd1290763e61e5d3ef01e06fcad0e0cdcf11241d77b36a2daba842fc8c"
   solver-name = "gps-cdcl"
   solver-version = 1
