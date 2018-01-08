@@ -14,11 +14,12 @@ func login(users []*userReq) {
 	for _, u := range users {
 		done.Add(1)
 		go func(u *userReq) {
+			defer done.Done()
+
 			if err := u.login(); err != nil {
 				log.Error(0, "u.login() return errors %v", err)
 			}
 
-			done.Done()
 		}(u)
 	}
 
@@ -32,13 +33,13 @@ func refresh(users []*userReq) {
 	for _, u := range users {
 		done.Add(1)
 		go func(u *userReq) {
+			defer done.Done()
+
 			if err := u.refresh(true); err != nil {
 				log.Error(0, "%s refresh() returns error %v", u.userData.userInfo.Phone, err)
 			}
 
 			log.Trace("%s refreshed", u.userData.userInfo.Phone)
-
-			done.Done()
 		}(u)
 	}
 
@@ -52,11 +53,11 @@ func withDraw(users []*userReq) {
 	for _, u := range users {
 		done.Add(1)
 		go func(u *userReq) {
+			defer done.Done()
+
 			if err := u.withDraw(); err != nil {
 				log.Error(0, "u.withDraw() returns error %v", err)
 			}
-
-			done.Done()
 		}(u)
 	}
 
@@ -89,8 +90,11 @@ func checkStatus(users []*userReq) {
 	for _, u := range users {
 		done.Add(1)
 		go func(u *userReq) {
+			defer done.Done()
+
 			if err := u.refresh(false); err != nil {
 				log.Error(0, "u.refresh() returns error %v", err)
+				return
 			}
 
 			for _, v := range u.peers.Devices {
@@ -104,8 +108,6 @@ func checkStatus(users []*userReq) {
 					log.Error(0, "send() returns error %s %v", u.phone, err)
 				}
 			}
-
-			done.Done()
 		}(u)
 	}
 
