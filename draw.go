@@ -1,8 +1,6 @@
 package main
 
 import (
-	log "gopkg.in/clog.v1"
-
 	"errors"
 	"github.com/imroc/req"
 	"math/big"
@@ -31,12 +29,12 @@ type respDraw struct {
 
 type drawInfo struct {
 	Addr          string `json:"addr"`
-	DrawMsg       string `json:"draw_msg"`
-	DrawRet       int    `json:"draw_ret"`
-	DrawTime      string `json:"draw_time"`
-	GasCost       string `json:"gas_cost"`
-	GasType       int    `json:"gas_type"`
-	OriginBalance string `json:"origin_balance"`
+	DrawMsg       string `json:"drawMsg"`
+	DrawRet       int    `json:"drawRet"`
+	DrawTime      string `json:"drawTime"`
+	GasCost       string `json:"gasCost"`
+	GasType       int    `json:"gasType"`
+	OriginBalance string `json:"originBalance"`
 }
 
 func balanceIsZero(s string) bool {
@@ -81,14 +79,10 @@ func (user *userReq) withDraw() (err error) {
 		return err
 	}
 
-	log.Info("%s", resp.Dump())
-
 	var v respDraw
 	if err := resp.ToJSON(&v); err != nil {
 		return err
 	}
-
-	log.Info("%v", v)
 
 	if !v.success() {
 		return v
