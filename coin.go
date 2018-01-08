@@ -133,7 +133,7 @@ getCoinInfo
 func getCoinInfo() (c *coin, err error) {
 	r, err := req.Post(apiCoinInfoURL, headers)
 	if err != nil {
-		log.Error(1, "%v", err)
+		log.Error(0, "Get coin info fail %v", err)
 		return
 	}
 

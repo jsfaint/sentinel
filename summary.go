@@ -15,7 +15,7 @@ func login(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.login(); err != nil {
-				log.Error(1, "%v", err)
+				log.Error(0, "u.login() return errors %v", err)
 			}
 
 			done.Done()
@@ -33,7 +33,7 @@ func refresh(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.refresh(true); err != nil {
-				log.Error(1, "%s refresh() returns %v", u.userData.userInfo.Phone, err)
+				log.Error(0, "%s refresh() returns error %v", u.userData.userInfo.Phone, err)
 			}
 
 			log.Trace("%s refreshed", u.userData.userInfo.Phone)
@@ -53,7 +53,7 @@ func withDraw(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.withDraw(); err != nil {
-				log.Error(1, "%v", err)
+				log.Error(0, "u.withDraw() returns error %v", err)
 			}
 
 			done.Done()
@@ -78,7 +78,7 @@ func summary(users []*userReq) {
 	log.Info("%s", b.String())
 
 	if err := send("玩客哨兵每日播报", b.String()); err != nil {
-		log.Error(1, "%v", err)
+		log.Error(0, "Send summary info to servchan fail %v", err)
 	}
 }
 
@@ -90,7 +90,7 @@ func checkStatus(users []*userReq) {
 		done.Add(1)
 		go func(u *userReq) {
 			if err := u.refresh(false); err != nil {
-				log.Error(1, "%v", err)
+				log.Error(0, "u.refresh() returns error %v", err)
 			}
 
 			for _, v := range u.peers.Devices {
@@ -101,7 +101,7 @@ func checkStatus(users []*userReq) {
 				t, c := v.Message(u.phone)
 
 				if err := send(t, c); err != nil {
-					log.Error(1, "%s %v", u.phone, err)
+					log.Error(0, "send() returns error %s %v", u.phone, err)
 				}
 			}
 

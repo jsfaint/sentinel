@@ -97,7 +97,7 @@ func main() {
 		user := newUser(u.Phone, u.Pass)
 
 		if err := user.login(); err != nil {
-			log.Error(1, "%v", err)
+			log.Error(0, "Login fail %v", err)
 			continue
 		}
 

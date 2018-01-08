@@ -26,21 +26,21 @@ func startCrontable(users []*userReq) (err error) {
 	if err = c.AddFunc("@every 30s", func() {
 		checkStatus(users)
 	}); err != nil {
-		log.Error(1, "%v", err)
+		log.Error(0, "Add checkStatus() fail %v", err)
 	}
 
 	//Show summary every morning 9:00
 	if err = c.AddFunc("0 0 9 * * *", func() {
 		summary(users)
 	}); err != nil {
-		log.Error(1, "%v", err)
+		log.Error(0, "Add summary() fail%v", err)
 	}
 
 	//Draw at 9:10 of the setting day
 	if err = c.AddFunc(fmt.Sprintf("0 10 9 * * %d", cfg.DrawDay), func() {
 		withDraw(users)
 	}); err != nil {
-		log.Error(1, "%v", err)
+		log.Error(0, "Add withDraw() fail %v", err)
 	}
 
 	c.Start()

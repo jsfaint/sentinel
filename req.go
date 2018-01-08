@@ -69,7 +69,7 @@ func (user *userReq) refresh(all bool) (err error) {
 	}
 
 	if err = user.listPeerInfo(); err != nil {
-		log.Error(1, "%v", err)
+		log.Error(0, "user.listPeerInfo() returns error %v", err)
 	}
 
 	if !all {
@@ -80,26 +80,26 @@ func (user *userReq) refresh(all bool) (err error) {
 
 	if user.peers.Devices[0].Status != "exception" {
 		if err = user.getUSBInfo(); err != nil {
-			log.Error(1, "%v", err)
+			log.Error(0, "user.getUSBInfo() returns error %v", err)
 		}
 	} else {
-		log.Error(1, "%s disk status is exception %v", phone)
+		log.Error(0, "%s disk status is exception %v", phone)
 	}
 
 	if err = user.getActivate(); err != nil {
-		log.Error(1, "%s getActivate fail %v", phone, err)
+		log.Error(0, "%s getActivate fail %v", phone, err)
 	}
 
 	if err = user.getAccountInfo(); err != nil {
-		log.Error(1, "%s getAccountInfo fail %v", phone, err)
+		log.Error(0, "%s getAccountInfo fail %v", phone, err)
 	}
 
 	if err = user.getIncome(); err != nil {
-		log.Error(1, "%s getIncome fail %v", phone, err)
+		log.Error(0, "%s getIncome fail %v", phone, err)
 	}
 
 	if err = user.getOutcome(); err != nil {
-		log.Error(1, "%s getOutcome fail %v", phone, err)
+		log.Error(0, "%s getOutcome fail %v", phone, err)
 	}
 
 	return
