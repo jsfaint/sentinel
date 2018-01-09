@@ -1,9 +1,9 @@
 package main
 
 const (
-	apiAccountURL = "https://account.onethingpcs.com"
-	apiControlURL = "https://control.onethingpcs.com"
-	apiRemoteURL  = "https://control.remotedl.onethingpcs.com"
+	apiAccountURL = "http://account.onethingpcs.com"
+	apiControlURL = "http://control.onethingpcs.com"
+	apiRemoteURL  = "http://control.remotedl.onethingpcs.com"
 
 	//Account
 	apiAccountInfoURL  = apiAccountURL + "/wkb/account-info"

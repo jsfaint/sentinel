@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	servchanURL = "https://sc.ftqq.com/"
+	servchanURL = "http://sc.ftqq.com/"
 )
 
 var servchanToken string
