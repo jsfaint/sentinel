@@ -2,7 +2,7 @@ package main
 
 type respHead struct {
 	Ret int    `json:"iRet"`
-	Msg string `json:"sMesg"`
+	Msg string `json:"sMsg"`
 }
 
 type respHead2 struct {
