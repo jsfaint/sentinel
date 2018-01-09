@@ -63,6 +63,8 @@ func (user *userReq) refresh(all bool) (err error) {
 	}
 
 	if !valid {
+		log.Info("%s Re-login", user.phone)
+		user.r = req.New()
 		if err = user.login(); err != nil {
 			return err
 		}
