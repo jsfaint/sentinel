@@ -72,6 +72,7 @@ func (user *userReq) refresh(all bool) (err error) {
 
 	if err = user.listPeerInfo(); err != nil {
 		log.Error(0, "user.listPeerInfo() returns error %v", err)
+		return err
 	}
 
 	if !all {
