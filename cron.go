@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/robfig/cron"
 	log "gopkg.in/clog.v1"
+	"time"
 )
 
 /*
@@ -22,6 +23,16 @@ var c *cron.Cron
 func startCrontable(users []*userReq) (err error) {
 	c = cron.New()
 
+	var tz int
+	if time.Now().Location().String() == "UTC" {
+		tz = 8
+	} else {
+		tz = 0
+	}
+
+	summaryTime := fmt.Sprintf("0 0 %d * * *", 9-tz)
+	drawTime := fmt.Sprintf("0 10 %d * * %d", 9-tz, cfg.DrawDay)
+
 	//Refresh data and check status every 30s
 	if err = c.AddFunc("@every 30s", func() {
 		checkStatus(users)
@@ -30,7 +41,7 @@ func startCrontable(users []*userReq) (err error) {
 	}
 
 	//Show summary every morning 9:00
-	if err = c.AddFunc("0 0 9 * * *", func() {
+	if err = c.AddFunc(summaryTime, func() {
 		refresh(users)
 		summary(users)
 	}); err != nil {
@@ -38,7 +49,7 @@ func startCrontable(users []*userReq) (err error) {
 	}
 
 	//Draw at 9:10 of the setting day
-	if err = c.AddFunc(fmt.Sprintf("0 10 9 * * %d", cfg.DrawDay), func() {
+	if err = c.AddFunc(drawTime, func() {
 		refresh(users)
 		withDraw(users)
 	}); err != nil {
