@@ -210,15 +210,18 @@ func (peer peerInfo) Message(phone string) (title string, content string) {
 
 	switch peer.Status {
 	case "online":
-		title = phone + " " + "设备已离线"
+		title = phone + " " + "设备在线"
 	case "offline":
-		title = phone + " " + "设备已离线"
+		title = phone + " " + "设备离线"
 	case "exception":
-		title = phone + " " + "硬盘异常"
+		title = phone + " " + "状态异常"
 	default:
 		title = phone + " " + peer.Status
 	}
 
+	if peer.Status == "exception" {
+		b.WriteString(fmt.Sprintf("%s  \n", peer.ExceptionMessage))
+	}
 	b.WriteString(fmt.Sprintf("设备名: %s SN: %s  \n", peer.DeviceName, peer.DeviceSn))
 
 	return title, b.String()
