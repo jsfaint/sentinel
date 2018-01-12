@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/robfig/cron"
 	log "gopkg.in/clog.v1"
+	"sentinel"
 	"time"
 )
 
@@ -20,7 +21,7 @@ Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 
 var c *cron.Cron
 
-func startCrontable(users []*userReq) (err error) {
+func startCrontable(users []*sentinel.UserReq) (err error) {
 	c = cron.New()
 
 	var tz int

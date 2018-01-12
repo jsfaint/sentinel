@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"net/http"
@@ -47,7 +47,7 @@ type gasInfo struct {
 /*
 getAccountInfo
 */
-func (user *userReq) getAccountInfo() (err error) {
+func (user *UserReq) getAccountInfo() (err error) {
 	r := user.r
 
 	//POST query parameter
@@ -76,7 +76,7 @@ func (user *userReq) getAccountInfo() (err error) {
 		return v
 	}
 
-	user.accountInfo = &v.Data
+	user.AccountInfo = &v.Data
 
 	return
 }

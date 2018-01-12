@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import "github.com/imroc/req"
 
@@ -29,10 +29,8 @@ type userInfo struct {
 	NickName    string `json:"nickname"`
 }
 
-/*
-login
-*/
-func (user *userReq) login() (err error) {
+//Login request login
+func (user *UserReq) Login() (err error) {
 	r := user.r
 
 	sign := getSign(false, map[string]string{
@@ -75,7 +73,7 @@ func (user *userReq) login() (err error) {
 		}
 	}
 
-	user.userInfo = &v.Data
+	user.UserInfo = &v.Data
 
 	return
 }

@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"errors"
@@ -50,26 +50,27 @@ func balanceIsZero(s string) bool {
 	return false
 }
 
-func (user *userReq) withDraw() (err error) {
+//WithDraw request a coin drawing
+func (user *UserReq) WithDraw() (err error) {
 	r := user.r
 
-	if user.accountInfo == nil {
+	if user.AccountInfo == nil {
 		return errors.New(user.phone + " account Info doesn't exist")
 	}
 
-	if balanceIsZero(user.accountInfo.Balance) {
+	if balanceIsZero(user.AccountInfo.Balance) {
 		return errors.New("Drawed already")
 	}
 
 	sign := getSign(false, map[string]string{
 		"gasType":    "2",
-		"drawWkb":    user.accountInfo.Balance,
+		"drawWkb":    user.AccountInfo.Balance,
 		"appversion": wkAppVersion,
 	}, user.sessionID)
 
 	body := req.Param{
 		"gasType":    "2",
-		"drawWkb":    user.accountInfo.Balance,
+		"drawWkb":    user.AccountInfo.Balance,
 		"appversion": wkAppVersion,
 		"sign":       sign,
 	}

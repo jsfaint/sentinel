@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"github.com/imroc/req"
@@ -20,11 +20,8 @@ type respSend struct {
 	Dataset string `json:"dataset"`
 }
 
-func send(title string, content string) (err error) {
-	if servchanToken == "" {
-		return nil
-	}
-
+//Send given info via serchan
+func Send(title string, content string) (err error) {
 	body := req.Param{
 		"text": title,
 		"desp": content,
@@ -57,6 +54,7 @@ func (s respSend) Error() string {
 	return s.ErrMsg
 }
 
-func setServtoken(token string) {
+//SetToken set servchan token
+func SetToken(token string) {
 	servchanToken = token
 }

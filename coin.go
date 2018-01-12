@@ -1,8 +1,7 @@
-package main
+package sentinel
 
 import (
 	"github.com/imroc/req"
-	log "gopkg.in/clog.v1"
 )
 
 /*
@@ -93,10 +92,11 @@ import (
 
 type respCoin struct {
 	respHead
-	Data coin `json:"data"`
+	Data Coin `json:"data"`
 }
 
-type coin struct {
+//Coin defines blockchain info
+type Coin struct {
 	Date              string          `json:"date"`
 	BlockNum          uint64          `json:"block_num"`
 	WKBNum            uint64          `json:"wkb_num"`
@@ -107,33 +107,31 @@ type coin struct {
 	TopNBandwidth     []topNBandwidth `json:"topN_bandwidth"`
 }
 
-type topInfo struct {
+//TopInfo defines structure for Top User
+type TopInfo struct {
 	UserID uint64  `json:"user_id"`
 	WKB    float64 `json:"wkb"`
 	Phone  string  `json:"phone"`
 }
 
 type topNWKB struct {
-	topInfo
+	TopInfo
 }
 
 type topNBandwidth struct {
-	topInfo
+	TopInfo
 	Bandwidth uint32 `json:"bandwidth"`
 }
 
 type topNDisk struct {
-	topInfo
+	TopInfo
 	Disk uint64 `json:"disk"`
 }
 
-/*
-getCoinInfo
-*/
-func getCoinInfo() (c *coin, err error) {
+//GetCoinInfo get block info form server
+func GetCoinInfo() (c *Coin, err error) {
 	r, err := req.Post(apiCoinInfoURL, headers)
 	if err != nil {
-		log.Error(0, "Get coin info fail %v", err)
 		return
 	}
 
@@ -149,8 +147,4 @@ func getCoinInfo() (c *coin, err error) {
 	c = &v.Data
 
 	return
-}
-
-func (c *coin) dump() {
-	log.Info("%v", c)
 }

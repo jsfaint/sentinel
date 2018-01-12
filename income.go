@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"net/http"
@@ -52,7 +52,7 @@ type dailyIncome struct {
 /*
 Get income history
 */
-func (user *userReq) getIncome() (err error) {
+func (user *UserReq) getIncome() (err error) {
 	r := user.r
 
 	sign := getSign(false, map[string]string{
@@ -88,7 +88,7 @@ func (user *userReq) getIncome() (err error) {
 		return v
 	}
 
-	user.incomeInfo = &v.Data
+	user.IncomeInfo = &v.Data
 
 	return
 }

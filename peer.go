@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"bytes"
@@ -138,7 +138,7 @@ type peerInfo struct {
 /*
 Get peer info
 */
-func (user *userReq) listPeerInfo() (err error) {
+func (user *UserReq) listPeerInfo() (err error) {
 	r := user.r
 
 	sign := getSign(true, map[string]string{
@@ -200,7 +200,7 @@ func (user *userReq) listPeerInfo() (err error) {
 		log.Warn("Found %d peers!", len(list.Devices))
 	}
 
-	user.peers = &list
+	user.Peers = &list
 
 	return
 }

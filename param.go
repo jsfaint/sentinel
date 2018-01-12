@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	log "gopkg.in/clog.v1"

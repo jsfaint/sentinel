@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 const (
 	apiAccountURL = "http://account.onethingpcs.com"

@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"encoding/json"
@@ -49,10 +49,10 @@ type partitionInfo struct {
 	ID       int    `json:"id"`
 }
 
-func (user *userReq) getUSBInfo() (err error) {
+func (user *UserReq) getUSBInfo() (err error) {
 	r := user.r
 
-	devID := user.peers.Devices[0].DeviceID
+	devID := user.Peers.Devices[0].DeviceID
 
 	sign := getSign(true, map[string]string{
 		"appversion": wkAppVersion,
@@ -98,7 +98,7 @@ func (user *userReq) getUSBInfo() (err error) {
 		return err
 	}
 
-	user.partitions = &list
+	user.Partitions = &list
 
 	return err
 }

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	log "gopkg.in/clog.v1"
 	"path/filepath"
+	"sentinel"
+	"sentinel/config"
 )
 
 const (
@@ -21,7 +23,10 @@ type options struct {
 	log     *string
 }
 
-var opt options
+var (
+	opt options
+	cfg config.Config
+)
 
 func init() {
 	fmt.Println(name, version, mail)
@@ -86,17 +91,29 @@ func main() {
 	}
 	defer log.Shutdown()
 
+	//Get config from config.json
+	cfg, err := config.NewConfig()
+	if err != nil {
+		log.Fatal(0, "%v", err)
+	}
+
+	if err := cfg.Check(); err != nil {
+		log.Fatal(0, "%v", err)
+	}
+
+	sentinel.SetToken(cfg.Token)
+
 	//Walk through the configs, support multiple account
-	var users []*userReq
+	var users []*sentinel.UserReq
 	for _, u := range cfg.Accounts {
 		//skip if phone or pwd is null
 		if u.Phone == "" || u.Pass == "" {
 			continue
 		}
 
-		user := newUser(u.Phone, u.Pass)
+		user := sentinel.NewUser(u.Phone, u.Pass)
 
-		if err := user.login(); err != nil {
+		if err := user.Login(); err != nil {
 			log.Error(0, "Login fail %v", err)
 			continue
 		}

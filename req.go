@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"bytes"
@@ -20,18 +20,20 @@ type session struct {
 	userID    string
 }
 
-type userData struct {
+//UserData defines all the user data which get from serve
+type UserData struct {
 	//Data from response
-	userInfo     *userInfo
-	accountInfo  *accountInfo
-	incomeInfo   *incomeInfo
-	outcomeInfo  *outcomeInfo
-	activateInfo *activateInfo
-	peers        *peerList
-	partitions   *partitionList
+	UserInfo     *userInfo
+	AccountInfo  *accountInfo
+	IncomeInfo   *incomeInfo
+	OutcomeInfo  *outcomeInfo
+	ActivateInfo *activateInfo
+	Peers        *peerList
+	Partitions   *partitionList
 }
 
-type userReq struct {
+//UserReq includes some info for request and response
+type UserReq struct {
 	phone string
 	pwd   string
 	devID string
@@ -42,11 +44,12 @@ type userReq struct {
 	session
 
 	//Data from response
-	userData
+	UserData
 }
 
-func newUser(phone, pass string) *userReq {
-	return &userReq{
+//NewUser returns *UserReq
+func NewUser(phone, pass string) *UserReq {
+	return &UserReq{
 		phone: phone,
 		pwd:   getPWD(pass),
 		devID: getDevID(phone),
@@ -56,7 +59,8 @@ func newUser(phone, pass string) *userReq {
 	}
 }
 
-func (user *userReq) refresh(all bool) (err error) {
+//Refresh will get all data from API
+func (user *UserReq) Refresh(all bool) (err error) {
 	valid, err := user.validSession()
 	if err != nil {
 		log.Info("%v", err)
@@ -65,7 +69,7 @@ func (user *userReq) refresh(all bool) (err error) {
 	if !valid {
 		log.Info("%s Re-login", user.phone)
 		user.r = req.New()
-		if err = user.login(); err != nil {
+		if err = user.Login(); err != nil {
 			return err
 		}
 	}
@@ -79,9 +83,9 @@ func (user *userReq) refresh(all bool) (err error) {
 		return
 	}
 
-	phone := user.userInfo.Phone
+	phone := user.UserInfo.Phone
 
-	if user.peers.Devices[0].Status != "exception" {
+	if user.Peers.Devices[0].Status != "exception" {
 		if err = user.getUSBInfo(); err != nil {
 			log.Error(0, "user.getUSBInfo() returns error %v", err)
 		}
@@ -108,16 +112,17 @@ func (user *userReq) refresh(all bool) (err error) {
 	return
 }
 
-func (user *userReq) summary() string {
+//Summary will send information via servchan
+func (user *UserReq) Summary() string {
 	var b bytes.Buffer
 
 	//Short the variable
-	account := user.accountInfo
-	activate := user.activateInfo
-	income := user.incomeInfo
-	outcome := user.outcomeInfo
-	peer := user.peers.Devices[0]
-	partitions := user.partitions
+	account := user.AccountInfo
+	activate := user.ActivateInfo
+	income := user.IncomeInfo
+	outcome := user.OutcomeInfo
+	peer := user.Peers.Devices[0]
+	partitions := user.Partitions
 
 	b.WriteString(fmt.Sprintf("## %s\n", user.phone))
 	b.WriteString(fmt.Sprintf("设备名: %s SN: %s  \n", peer.DeviceName, peer.DeviceSn))
@@ -136,4 +141,9 @@ func (user *userReq) summary() string {
 	}
 
 	return b.String()
+}
+
+//Phone returns user phone number
+func (user *UserReq) Phone() string {
+	return user.phone
 }

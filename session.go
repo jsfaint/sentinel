@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"github.com/imroc/req"
@@ -8,7 +8,7 @@ type respSession struct {
 	respHead
 }
 
-func (user *userReq) validSession() (valid bool, err error) {
+func (user *UserReq) validSession() (valid bool, err error) {
 	r := user.r
 
 	sign := getSign(true, map[string]string{}, user.sessionID)

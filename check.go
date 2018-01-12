@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 type respHead struct {
 	Ret int    `json:"iRet"`

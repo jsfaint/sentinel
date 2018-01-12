@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import "net/http"
 
@@ -57,7 +57,7 @@ type dailyOutcome struct {
 /*
 Get Outcome history
 */
-func (user *userReq) getOutcome() (err error) {
+func (user *UserReq) getOutcome() (err error) {
 	r := user.r
 
 	cookies := []*http.Cookie{
@@ -82,7 +82,7 @@ func (user *userReq) getOutcome() (err error) {
 		return v
 	}
 
-	user.outcomeInfo = &v.Data
+	user.OutcomeInfo = &v.Data
 
 	return
 }

@@ -1,4 +1,4 @@
-package main
+package sentinel
 
 import (
 	"net/http"
@@ -31,10 +31,10 @@ type activateInfo struct {
 	Type         int     `json:"type"`
 }
 
-func (user *userReq) getActivate() (err error) {
+func (user *UserReq) getActivate() (err error) {
 	r := user.r
 
-	device := user.peers.Devices[0]
+	device := user.Peers.Devices[0]
 
 	sign := getSign(false, map[string]string{
 		"sn": device.DeviceSn,
@@ -74,7 +74,7 @@ func (user *userReq) getActivate() (err error) {
 		return v
 	}
 
-	user.activateInfo = &v.Data
+	user.ActivateInfo = &v.Data
 
 	return
 }
