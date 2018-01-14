@@ -23,13 +23,13 @@ type session struct {
 //UserData defines all the user data which get from serve
 type UserData struct {
 	//Data from response
-	UserInfo     *userInfo
-	AccountInfo  *accountInfo
-	IncomeInfo   *incomeInfo
-	OutcomeInfo  *outcomeInfo
-	ActivateInfo *activateInfo
-	Peers        *peerList
-	Partitions   *partitionList
+	userInfo     *UserInfo
+	accountInfo  *AccountInfo
+	incomeInfo   *IncomeInfo
+	outcomeInfo  *OutcomeInfo
+	activateInfo *ActivateInfo
+	peers        *Peers
+	partitions   *Partitions
 }
 
 //UserReq includes some info for request and response
@@ -83,9 +83,9 @@ func (user *UserReq) Refresh(all bool) (err error) {
 		return
 	}
 
-	phone := user.UserInfo.Phone
+	phone := user.userInfo.Phone
 
-	if user.Peers.Devices[0].Status != "exception" {
+	if user.peers.Devices[0].Status != "exception" {
 		if err = user.getUSBInfo(); err != nil {
 			log.Error(0, "user.getUSBInfo() returns error %v", err)
 		}
@@ -117,12 +117,12 @@ func (user *UserReq) Summary() string {
 	var b bytes.Buffer
 
 	//Short the variable
-	account := user.AccountInfo
-	activate := user.ActivateInfo
-	income := user.IncomeInfo
-	outcome := user.OutcomeInfo
-	peer := user.Peers.Devices[0]
-	partitions := user.Partitions
+	account := user.accountInfo
+	activate := user.activateInfo
+	income := user.incomeInfo
+	outcome := user.outcomeInfo
+	peer := user.peers.Devices[0]
+	partitions := user.partitions
 
 	b.WriteString(fmt.Sprintf("## %s\n", user.phone))
 	b.WriteString(fmt.Sprintf("设备名: %s SN: %s  \n", peer.DeviceName, peer.DeviceSn))
@@ -144,6 +144,62 @@ func (user *UserReq) Summary() string {
 }
 
 //Phone returns user phone number
-func (user *UserReq) Phone() string {
+func (user UserReq) Phone() string {
 	return user.phone
+}
+
+//GetUserInfo provides API to get user information which returns struct UserInfo
+func (user UserReq) GetUserInfo() UserInfo {
+	if user.userInfo != nil {
+		return *user.userInfo
+	}
+	return UserInfo{}
+}
+
+//GetAccountInfo provides API to get account information which returns struct AccountInfo
+func (user UserReq) GetAccountInfo() AccountInfo {
+	if user.accountInfo != nil {
+		return *user.accountInfo
+	}
+	return AccountInfo{}
+}
+
+//GetIncome provides API to get incoming history which returns struct IncomeInfo
+func (user UserReq) GetIncome() IncomeInfo {
+	if user.incomeInfo != nil {
+		return *user.incomeInfo
+	}
+	return IncomeInfo{}
+}
+
+//GetOutcome provides API to get outcoming history which returns struct OutcomeInfo
+func (user UserReq) GetOutcome() OutcomeInfo {
+	if user.outcomeInfo != nil {
+		return *user.outcomeInfo
+	}
+	return OutcomeInfo{}
+}
+
+//GetPeers provides API to get peers information which returns struct Peers
+func (user UserReq) GetPeers() Peers {
+	if user.peers != nil {
+		return *user.peers
+	}
+	return Peers{}
+}
+
+//GetActivateInfo provides API to get activation information which returns struct ActivateInfo
+func (user UserReq) GetActivateInfo() ActivateInfo {
+	if user.activateInfo != nil {
+		return *user.activateInfo
+	}
+	return ActivateInfo{}
+}
+
+//GetPartitions provides API to parition information which returns struct Partitions
+func (user UserReq) GetPartitions() Partitions {
+	if user.partitions != nil {
+		return *user.partitions
+	}
+	return Partitions{}
 }

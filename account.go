@@ -26,10 +26,12 @@ import (
 */
 type respAccountInfo struct {
 	respHead
-	Data accountInfo `json:"data"`
+	Data AccountInfo `json:"data"`
 }
 
-type accountInfo struct {
+//AccountInfo defines account information, includes:
+// wallet address, balance, bind time, forzen time, gas information and address bind status
+type AccountInfo struct {
 	Addr        string  `json:"addr"`
 	Balance     string  `json:"balance"`
 	BindTime    uint64  `json:"bind_time"`
@@ -76,7 +78,7 @@ func (user *UserReq) getAccountInfo() (err error) {
 		return v
 	}
 
-	user.AccountInfo = &v.Data
+	user.accountInfo = &v.Data
 
 	return
 }

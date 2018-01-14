@@ -54,23 +54,23 @@ func balanceIsZero(s string) bool {
 func (user *UserReq) WithDraw() (err error) {
 	r := user.r
 
-	if user.AccountInfo == nil {
+	if user.accountInfo == nil {
 		return errors.New(user.phone + " account Info doesn't exist")
 	}
 
-	if balanceIsZero(user.AccountInfo.Balance) {
+	if balanceIsZero(user.accountInfo.Balance) {
 		return errors.New("Drawed already")
 	}
 
 	sign := getSign(false, map[string]string{
 		"gasType":    "2",
-		"drawWkb":    user.AccountInfo.Balance,
+		"drawWkb":    user.accountInfo.Balance,
 		"appversion": wkAppVersion,
 	}, user.sessionID)
 
 	body := req.Param{
 		"gasType":    "2",
-		"drawWkb":    user.AccountInfo.Balance,
+		"drawWkb":    user.accountInfo.Balance,
 		"appversion": wkAppVersion,
 		"sign":       sign,
 	}

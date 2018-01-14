@@ -35,7 +35,8 @@ type respUSBInfo struct {
 	Result []interface{} `json:"result"`
 }
 
-type partitionList struct {
+//Partitions defines disk information
+type Partitions struct {
 	Partitions []partitionInfo `json:"partitions"`
 }
 
@@ -52,7 +53,7 @@ type partitionInfo struct {
 func (user *UserReq) getUSBInfo() (err error) {
 	r := user.r
 
-	devID := user.Peers.Devices[0].DeviceID
+	devID := user.peers.Devices[0].DeviceID
 
 	sign := getSign(true, map[string]string{
 		"appversion": wkAppVersion,
@@ -87,18 +88,18 @@ func (user *UserReq) getUSBInfo() (err error) {
 		return errors.New("Invalid response result")
 	}
 
-	//Convert interface to json string and then convert to partitionList
+	//Convert interface to json string and then convert to struct Partitions
 	var b []byte
 	if b, err = json.Marshal(v.Result[1]); err != nil {
 		return err
 	}
 
-	var list partitionList
+	var list Partitions
 	if err := json.Unmarshal(b, &list); err != nil {
 		return err
 	}
 
-	user.Partitions = &list
+	user.partitions = &list
 
 	return err
 }

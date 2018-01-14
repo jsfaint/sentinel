@@ -35,10 +35,11 @@ import (
 
 type respIncome struct {
 	respHead
-	Data incomeInfo `json:"data"`
+	Data IncomeInfo `json:"data"`
 }
 
-type incomeInfo struct {
+//IncomeInfo defines incoming history
+type IncomeInfo struct {
 	TotalIncome float64       `json:"totalIncome"`
 	NextPage    int           `json:"nextPage"`
 	IncomeArr   []dailyIncome `json:"incomeArr"`
@@ -88,7 +89,7 @@ func (user *UserReq) getIncome() (err error) {
 		return v
 	}
 
-	user.IncomeInfo = &v.Data
+	user.incomeInfo = &v.Data
 
 	return
 }

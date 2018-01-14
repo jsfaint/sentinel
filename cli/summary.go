@@ -36,7 +36,7 @@ func refresh(users []*sentinel.UserReq) {
 		go func(u *sentinel.UserReq) {
 			defer done.Done()
 
-			phone := u.UserData.UserInfo.Phone
+			phone := u.Phone()
 
 			if err := u.Refresh(true); err != nil {
 				log.Error(0, "%s refresh() returns error %v", phone, err)
@@ -100,7 +100,7 @@ func checkStatus(users []*sentinel.UserReq) {
 				return
 			}
 
-			for _, v := range u.Peers.Devices {
+			for _, v := range u.GetPeers().Devices {
 				if v.Status == "online" {
 					continue
 				}
@@ -125,7 +125,7 @@ func incomeAverage(users []*sentinel.UserReq) string {
 	var b bytes.Buffer
 
 	for _, u := range users {
-		total += u.ActivateInfo.YesWKB
+		total += u.GetActivateInfo().YesWKB
 	}
 
 	b.WriteString(fmt.Sprintf("共%d台机器 总收益 %.3f链克  \n", len(users), total))

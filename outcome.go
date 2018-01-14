@@ -35,10 +35,11 @@ import "net/http"
 
 type respOutcome struct {
 	respHead
-	Data outcomeInfo `json:"data"`
+	Data OutcomeInfo `json:"data"`
 }
 
-type outcomeInfo struct {
+//OutcomeInfo define outcoming history
+type OutcomeInfo struct {
 	TotalOutcome string         `json:"totalOutcome"`
 	NextPage     int            `json:"nextPage"`
 	OutcomeArr   []dailyOutcome `json:"outcomeArr"`
@@ -82,7 +83,7 @@ func (user *UserReq) getOutcome() (err error) {
 		return v
 	}
 
-	user.OutcomeInfo = &v.Data
+	user.outcomeInfo = &v.Data
 
 	return
 }

@@ -80,7 +80,8 @@ type respListPeer struct {
 	Result []interface{} `json:"result"`
 }
 
-type peerList struct {
+//Peers defines device formation
+type Peers struct {
 	Devices []peerInfo `json:"devices"`
 }
 
@@ -184,13 +185,13 @@ func (user *UserReq) listPeerInfo() (err error) {
 		return errors.New("Invalid response result")
 	}
 
-	//Convert interface to json string and then convert to peerList
+	//Convert interface to json string and then convert to struct Peers
 	var b []byte
 	if b, err = json.Marshal(v.Result[1]); err != nil {
 		return err
 	}
 
-	var list peerList
+	var list Peers
 	if err := json.Unmarshal(b, &list); err != nil {
 		return err
 	}
@@ -200,7 +201,7 @@ func (user *UserReq) listPeerInfo() (err error) {
 		log.Warn("Found %d peers!", len(list.Devices))
 	}
 
-	user.Peers = &list
+	user.peers = &list
 
 	return
 }

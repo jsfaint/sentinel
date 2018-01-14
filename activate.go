@@ -21,10 +21,11 @@ import (
 
 type respActivateInfo struct {
 	respHead
-	Data activateInfo `json:"data"`
+	Data ActivateInfo `json:"data"`
 }
 
-type activateInfo struct {
+//ActivateInfo defines account activation information
+type ActivateInfo struct {
 	ActivateDays int     `json:"activate_days"`
 	YesWKB       float64 `json:"yes_wkb"`
 	IsDone       int     `json:"is_done"`
@@ -34,7 +35,7 @@ type activateInfo struct {
 func (user *UserReq) getActivate() (err error) {
 	r := user.r
 
-	device := user.Peers.Devices[0]
+	device := user.peers.Devices[0]
 
 	sign := getSign(false, map[string]string{
 		"sn": device.DeviceSn,
@@ -74,7 +75,7 @@ func (user *UserReq) getActivate() (err error) {
 		return v
 	}
 
-	user.ActivateInfo = &v.Data
+	user.activateInfo = &v.Data
 
 	return
 }

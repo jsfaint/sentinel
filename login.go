@@ -18,10 +18,11 @@ import "github.com/imroc/req"
 
 type respLogin struct {
 	respHead
-	Data userInfo `json:"data"`
+	Data UserInfo `json:"data"`
 }
 
-type userInfo struct {
+//UserInfo defines user information
+type UserInfo struct {
 	Userid      string `json:"userid"`
 	Phone       string `json:"phone"`
 	AccountType string `json:"account_type"`
@@ -73,7 +74,7 @@ func (user *UserReq) Login() (err error) {
 		}
 	}
 
-	user.UserInfo = &v.Data
+	user.userInfo = &v.Data
 
 	return
 }
