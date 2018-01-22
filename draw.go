@@ -97,11 +97,7 @@ func (user *UserReq) WithDraw() (err error) {
 }
 
 func (draw drawInfo) success() bool {
-	if draw.DrawRet == 0 {
-		return true
-	}
-
-	return false
+	return (draw.DrawRet == 0)
 }
 
 func (draw drawInfo) Error() string {

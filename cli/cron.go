@@ -32,7 +32,7 @@ func startCrontable(users []*sentinel.UserReq) (err error) {
 	}
 
 	summaryTime := fmt.Sprintf("0 0 %d * * *", 9-tz)
-	drawTime := fmt.Sprintf("0 10 %d * * %d", 9-tz, cfg.DrawDay)
+	drawTime := fmt.Sprintf("0 10 %d * * %d", 10-tz, cfg.DrawDay)
 
 	//Refresh data and check status every 30s
 	if err = c.AddFunc("@every 30s", func() {
@@ -49,7 +49,7 @@ func startCrontable(users []*sentinel.UserReq) (err error) {
 		log.Error(0, "Add summary() fail%v", err)
 	}
 
-	//Draw at 9:10 of the setting day
+	//Draw at 10:10 of the setting day
 	if err = c.AddFunc(drawTime, func() {
 		refresh(users)
 		withDraw(users)
