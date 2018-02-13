@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"github.com/jsfaint/sentinel"
 	log "gopkg.in/clog.v1"
-	"sentinel"
 	"sync"
 )
 

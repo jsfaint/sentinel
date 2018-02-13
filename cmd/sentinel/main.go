@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/jsfaint/sentinel"
+	"github.com/jsfaint/sentinel/config"
 	log "gopkg.in/clog.v1"
 	"path/filepath"
-	"sentinel"
-	"sentinel/config"
 )
 
 const (

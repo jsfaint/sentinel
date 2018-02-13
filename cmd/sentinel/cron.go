@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/jsfaint/sentinel"
 	"github.com/robfig/cron"
 	log "gopkg.in/clog.v1"
-	"sentinel"
 	"time"
 )
 
